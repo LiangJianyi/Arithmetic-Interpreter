@@ -40,6 +40,7 @@ namespace Version1 {
 		private static string[ ] HighEval( string[ ] tokens ) {
 			double leftValue;
 			double rightValue;
+			int nullCount = 0;
 			for (int index = 0 ; index < tokens.Length ; index++) {
 				if (tokens[ index ] != null) {
 					try {
@@ -47,12 +48,15 @@ namespace Version1 {
 							switch (tokens[ index ]) {
 								case "*":
 									Eval( Multiplication , tokens , out leftValue , out rightValue , index );
+									nullCount = Cleanull( ref tokens );
 									break;
 								case "/":
 									Eval( Division , tokens , out leftValue , out rightValue , index );
+									nullCount = Cleanull( ref tokens );
 									break;
 								case "%":
 									Eval( Remaination , tokens , out leftValue , out rightValue , index );
+									nullCount = Cleanull( ref tokens );
 									break;
 							}
 						}
@@ -70,23 +74,6 @@ namespace Version1 {
 					continue;
 				}
 			}
-			#region 归约 -> 去除 null
-			int nullCount = 0;
-			string[ ] temp = new string[ tokens.Length - 2 ];
-			for (int tokensIndex = 0, tempIndex = 0 ;
-				tokensIndex < tokens.Length && tempIndex < temp.Length ;
-				tokensIndex++) {
-				if (tokens[ tokensIndex ] == null) {
-					nullCount++;
-					continue;
-				}
-				else {
-					temp[ tempIndex ] = tokens[ tokensIndex ];
-					tempIndex++;
-				}
-			}
-			tokens = temp;
-			#endregion
 			// 如果存在 null 元素，则继续递归
 			if (nullCount > 0) {
 				return HighEval( tokens );
@@ -104,6 +91,7 @@ namespace Version1 {
 		private static string[ ] LowEval( string[ ] tokens ) {
 			double leftValue;
 			double rightValue;
+			int nullCount = 0;
 			for (int index = 0 ; index < tokens.Length ; index++) {
 				if (tokens[ index ] != null) {
 					try {
@@ -111,9 +99,11 @@ namespace Version1 {
 							switch (tokens[ index ]) {
 								case "+":
 									Eval( Addition , tokens , out leftValue , out rightValue , index );
+									nullCount = Cleanull( ref tokens );
 									break;
 								case "-":
 									Eval( Subtraction , tokens , out leftValue , out rightValue , index );
+									nullCount = Cleanull( ref tokens );
 									break;
 							}
 						}
@@ -131,7 +121,22 @@ namespace Version1 {
 					continue;
 				}
 			}
-			#region 归约 -> 去除 null
+			// 如果存在 null 元素，则继续递归
+			if (nullCount > 0) {
+				return LowEval( tokens );
+			}
+			else {
+				return tokens;
+			}
+		}
+
+		/// <summary>
+		/// 归约 -> 去除 null
+		/// 返回去除掉 null 的重量
+		/// </summary>
+		/// <param name="tokens"></param>
+		/// <returns>返回去除掉 null 的重量</returns>
+		private static int Cleanull( ref string[ ] tokens ) {
 			int nullCount = 0;
 			string[ ] temp = new string[ tokens.Length - 2 ];
 			for (int tokensIndex = 0, tempIndex = 0 ;
@@ -147,14 +152,7 @@ namespace Version1 {
 				}
 			}
 			tokens = temp;
-			#endregion
-			// 如果存在 null 元素，则继续递归
-			if (nullCount > 0) {
-				return LowEval( tokens );
-			}
-			else {
-				return tokens;
-			}
+			return nullCount;
 		}
 
 		/// <summary>

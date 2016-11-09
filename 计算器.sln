@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualCalculator2", "Visual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version1", "Version1\Version1.csproj", "{02EA821E-8CB6-45A8-9D49-5841B4DDEBA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arithmetic Interpreter", "Arithmetic Interpreter\Arithmetic Interpreter.csproj", "{896A3668-265C-46B4-A2BE-55004DE3372B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{02EA821E-8CB6-45A8-9D49-5841B4DDEBA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02EA821E-8CB6-45A8-9D49-5841B4DDEBA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02EA821E-8CB6-45A8-9D49-5841B4DDEBA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
