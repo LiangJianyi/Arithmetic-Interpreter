@@ -38,7 +38,7 @@ namespace Arithmetic_Interpreter {
 		/// </summary>
 		/// <param name="tokens"></param>
 		/// <returns>返回去除掉 null 的重量</returns>
-		private static int Cleanull( ref string[ ] tokens ) {
+		private static int Reduction( ref string[ ] tokens ) {
 			int nullCount = 0;
 			string[ ] temp = new string[ tokens.Length - 2 ];
 			for (int tokensIndex = 0, tempIndex = 0 ; tokensIndex < tokens.Length ; tokensIndex++) {
@@ -104,7 +104,7 @@ namespace Arithmetic_Interpreter {
 								}
 								else {
 									Eval( Addition , tokens , out leftValue , out rightValue , index );
-									nullCount = Cleanull( ref tokens );
+									nullCount = Reduction( ref tokens );
 									index = 0;
 									break;
 								}
@@ -114,23 +114,23 @@ namespace Arithmetic_Interpreter {
 								}
 								else {
 									Eval( Subtraction , tokens , out leftValue , out rightValue , index );
-									nullCount = Cleanull( ref tokens );
+									nullCount = Reduction( ref tokens );
 									index = 0;
 									break;
 								}
 							case "*":
 								Eval( Multiplication , tokens , out leftValue , out rightValue , index );
-								nullCount = Cleanull( ref tokens );
+								nullCount = Reduction( ref tokens );
 								index = 0;
 								break;
 							case "/":
 								Eval( Division , tokens , out leftValue , out rightValue , index );
-								nullCount = Cleanull( ref tokens );
+								nullCount = Reduction( ref tokens );
 								index = 0;
 								break;
 							case "%":
 								Eval( Remaination , tokens , out leftValue , out rightValue , index );
-								nullCount = Cleanull( ref tokens );
+								nullCount = Reduction( ref tokens );
 								index = 0;
 								break;
 						}

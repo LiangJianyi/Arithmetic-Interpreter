@@ -21,7 +21,7 @@ namespace Arithmetic_Interpreter {
 			else {
 				if (this.CheckLawlessness( this.txtInput.Text )) {
 					if (this.CheckSynax( this.txtInput.Text )) {
-						string[ ] tokens = this.Parse( this.txtInput.Text );
+						string[ ] tokens = this.Tokenizer( this.txtInput.Text );
 						this.lblResult.Text = Evaluator.Calculating( tokens );
 					}
 					else {
@@ -45,7 +45,8 @@ namespace Arithmetic_Interpreter {
 					express.Substring( index , 1 ).Equals( "6" ) ||
 					express.Substring( index , 1 ).Equals( "7" ) ||
 					express.Substring( index , 1 ).Equals( "8" ) ||
-					express.Substring( index , 1 ).Equals( "9" )) {
+					express.Substring( index , 1 ).Equals( "9" ) ||
+					express.Substring( index , 1 ).Equals( "." )) {
 					return true;
 				}
 				else {
@@ -64,27 +65,27 @@ namespace Arithmetic_Interpreter {
 
 			const bool LAWLESSNESS_CHARACTER = false;
 			const bool LEGAL_CHARACTER = true;
-			bool result = true;
+			bool state = true;
 			for (int index = 0 ; index < express.Length ; index++) {
 				if (containLegalCharacter( index )) {
-					result = LEGAL_CHARACTER;
+					state = LEGAL_CHARACTER;
 				}
 				else {
 					if (containLegalCharacter( index )) {
-						result = LEGAL_CHARACTER;
+						state = LEGAL_CHARACTER;
 					}
 					else {
-						result = LAWLESSNESS_CHARACTER;
+						state = LAWLESSNESS_CHARACTER;
 						break;
 					}
 				}
 			}
 
-			return result;
+			return state;
 		}
 
 		private bool CheckSynax( string express ) {
-			Predicate<int> isNumberCharacter = ( index ) => {
+			Predicate<int> isNumber = ( index ) => {
 				if (express.Substring( index , 1 ).Equals( "0" ) ||
 					express.Substring( index , 1 ).Equals( "1" ) ||
 					express.Substring( index , 1 ).Equals( "2" ) ||
@@ -101,7 +102,7 @@ namespace Arithmetic_Interpreter {
 					return false;
 				}
 			};
-			Predicate<int> isOperatorCharacter = ( index ) => {
+			Predicate<int> isOperator = ( index ) => {
 				if (express.Substring( index , 1 ).Equals( "+" ) ||
 					express.Substring( index , 1 ).Equals( "-" ) ||
 					express.Substring( index , 1 ).Equals( "*" ) ||
@@ -113,21 +114,29 @@ namespace Arithmetic_Interpreter {
 					return false;
 				}
 			};
+			Predicate<int> isDecimalPoint = ( index ) => {
+				if (express.Substring( index , 1 ).Equals( "." )) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			};
 
-			bool lastCharacterIsNumber = true;
-			if (isNumberCharacter( 0 ) && isNumberCharacter( express.Length - 1 )) {
+			bool lastCharacterIsExpItem = true; // ExpItem => express item
+			if (isNumber( 0 ) && isNumber( express.Length - 1 )) {
 				for (int index = 1 ; index < express.Length - 1 ; index++) {
-					if (isNumberCharacter( index )) {
-						if (lastCharacterIsNumber) {
+					if (isNumber( index )) {
+						if (lastCharacterIsExpItem) {
 							continue;
 						}
 						else {
-							lastCharacterIsNumber = !lastCharacterIsNumber;
+							lastCharacterIsExpItem = !lastCharacterIsExpItem;
 						}
 					}
-					else if (isOperatorCharacter( index )) {
-						if (lastCharacterIsNumber) {
-							lastCharacterIsNumber = !lastCharacterIsNumber;
+					else if (isOperator( index ) || isDecimalPoint( index )) {
+						if (lastCharacterIsExpItem) {
+							lastCharacterIsExpItem = !lastCharacterIsExpItem;
 							continue;
 						}
 						else {
@@ -143,7 +152,7 @@ namespace Arithmetic_Interpreter {
 			return true;
 		}
 
-		private string[ ] Parse( string express ) {
+		private string[ ] Tokenizer( string express ) {
 			string[ ] numbers = express.Split( '+' , '-' , '*' , '/' , '%' );
 
 			#region 抽取运算符
