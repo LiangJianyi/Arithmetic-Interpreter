@@ -196,5 +196,74 @@ namespace Arithmetic_Interpreter {
 
 			return tokens;
 		}
+
+		private void Tokenization( string express ) {
+			Predicate<char> isNumber = ch => ch == '0' || ch == '1' || ch == '2' || ch == '3' || ch == '4' || ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9';
+			Predicate<char> isOperator = ch => ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '%';
+			Predicate<int> isSqrt = i => {
+				string word = String.Empty;
+				Action next = ( ) => {
+					word += express[ i ];
+					i++;
+				};
+				if (express[ i ] == 's' || express[ i ] == 'S') {
+					next( );
+					if (express[ i ] == 'q' || express[ i ] == 'Q') {
+						next( );
+						if (express[ i ] == 'r' || express[ i ] == 'R') {
+							next( );
+							if (express[ i ] == 't' || express[ i ] == 'T') {
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			};
+			Predicate<int> isPi = i => {
+				string word = String.Empty;
+				Action next = ( ) => {
+					word += express[ i ];
+					i++;
+				};
+				if (express[ i ] == 'p' || express[ i ] == 'P') {
+					next( );
+					if (express[ i ] == 'i' || express[ i ] == 'I') {
+						return true;
+					}
+				}
+				return false;
+			};
+
+			for (int index = 0 ; index < express.Count( ) ; index++) {
+				if (index < 1) {
+					if (express[ index ] == '(') {
+
+					}
+					else if (isSqrt( express[ index ] )) {
+
+					}
+					else if (isPi( express[ index ] )) {
+
+					}
+					else if (isOperator( express[ index ] )) {
+
+					}
+					else if (isNumber( express[ index ] )) {
+
+					}
+					else {
+						throw new InvalidOperationException( "表达式无效。" );
+					}
+				}
+				else {
+
+				}
+			}
+		}
+
+		private void Form1_Load( object sender , EventArgs e ) {
+
+		}
 	}
 }
