@@ -5,12 +5,20 @@ using System.Text;
 
 namespace Arithmetic_Interpreter {
 	internal static class Tokenizer {
+		/// <summary>
+		/// 有限状态机
+		/// </summary>
 		private class FSMachine {
 			private FSMachine _next;
 
-			public char Key { get; set; }
-			public Func<int , string , List<string> , dynamic> Function { get; set; }
+			private char Key { get; set; }
+			private Func<int , string , List<string> , dynamic> Function { get; set; }
 
+			/// <summary>
+			/// 索引器
+			/// </summary>
+			/// <param name="key"></param>
+			/// <returns></returns>
 			public Func<int , string , List<string> , dynamic> this[ char key ]
 			{
 				get
@@ -95,7 +103,7 @@ namespace Arithmetic_Interpreter {
 				/*
 				 * 判断以 express[ index ] 为首的关键字是否为 PI，并返回一个匿名类型表示的复合状态；
 				 * 此复合状态封装三个属性，其中：
-				 * index 表示关键字所在的字符串的下一个字符索引；
+				 * index 表示关键字所在位置的下一个字符索引；
 				 * state 表示关键字是否为 “PI”，如果是为“true”，否则为“false”；
 				 * word 表示返回当前检查的关键字；
 				 */
@@ -122,8 +130,7 @@ namespace Arithmetic_Interpreter {
 				Func<int , string , List<string> , dynamic> leftRacketOfNext = ( index , express , token ) => {
 					if (index < express.Length - 1) {
 						int next = index + 1;
-						if (isNumber( express[ next ] ) || express[ next ] == '-' || isSqrt( next , express ).state || express[ next ] == '(') {
-							token.Add( express[ index ].ToString( ) );
+						if (isNumber( express[ next ] ) || express[ next ] == '-' || isSqrt( next , express ).state || express[ next ] == '(' || isPi( next , express ).state) {
 							return new { index = index , state = true , word = express[ index ] };
 						}
 						else {
@@ -148,9 +155,11 @@ namespace Arithmetic_Interpreter {
 						else if (isNumber( express[ next ] )) {
 							string word = express[ index ].ToString( ) + express[ next ].ToString( );
 							next++;
-							while (isNumber( express[ next ] )) {
-								word += express[ next ];
-								next++;
+							if (true) { // 要注意接下来的小数点
+								while (isNumber( express[ next ] ) || express[ next ] == '.') {
+									word += express[ next ];
+									next++;
+								} 
 							}
 							return new { index = next - 1 , state = true , word = word };
 						}
@@ -206,12 +215,18 @@ namespace Arithmetic_Interpreter {
 				};
 				Func<int , string , List<string> , dynamic> piOfNext = ( index , express , token ) => {
 					if (index < express.Length - 1) {
-						int next = index + 1;
-						if (express[ next ] == '(') {
-							return new { index = index , state = true , word = express[ index ] };
+						var component = isPi( index , express );
+						if (component.state) {
+							int next = component.index;
+							if (express[ next ] == '(') {
+								return new { index = next - 1 , state = true , word = component.word };
+							}
+							else {
+								throw new InvalidOperationException( "PI 是函数表达式，必须遵循\"PI( )\"的形式。" );
+							}
 						}
 						else {
-							throw new InvalidOperationException( "PI 是函数表达式，必须遵循\"PI( )\"的形式。" );
+							return new { index = component.index , state = false , word = component.word };
 						}
 					}
 					else {
@@ -221,7 +236,7 @@ namespace Arithmetic_Interpreter {
 				Func<int , string , List<string> , dynamic> multiOfNext = ( index , express , token ) => {
 					if (index < express.Length) {
 						int next = index + 1;
-						if (isNumber( express[ next ] ) || isSqrt( index , express ).state || express[ next ] == '+' || express[ next ] == '-' || isPi( index , express ).state) {
+						if (isNumber( express[ next ] ) || isSqrt( index , express ).state || express[ next ] == '+' || express[ next ] == '-' || isPi( index , express ).state || express[ next ] == '(') {
 							return new { index = index , state = true , word = express[ index ] };
 						}
 						else {
@@ -233,9 +248,9 @@ namespace Arithmetic_Interpreter {
 					}
 				};
 				Func<int , string , List<string> , dynamic> divOfNext = ( index , express , token ) => {
-					if (index < express.Length) {
+					if (index < express.Length - 1) {
 						int next = index + 1;
-						if (isNumber( express[ next ] ) || isSqrt( next , express ).state || express[ next ] == '+' || express[ next ] == '-' || isPi( next , express ).state) {
+						if (isNumber( express[ next ] ) || isSqrt( next , express ).state || express[ next ] == '+' || express[ next ] == '-' || isPi( next , express ).state || express[ next ] == '(') {
 							return new { index = index , state = true , word = express[ index ] };
 						}
 						else {
@@ -288,6 +303,20 @@ namespace Arithmetic_Interpreter {
 						throw new InvalidOperationException( "\"^\"不能作为表达式的结尾。" );
 					}
 				};
+				Func<int , string , List<string> , dynamic> rightRacketOfNext = ( index , express , token ) => {
+					if (index < express.Length - 1) {
+						int next = index + 1;
+						if (isNumber( express[ next ] ) || isOperator( express[ next ] ) || express[ next ] == ')' || express[ next ] == '^') {
+							return new { index = index , state = true , word = express[ index ] };
+						}
+						else {
+							throw new InvalidOperationException( "除号右边只能是数字, \"sqrt\", 加号, 减号, \"PI\"" );
+						}
+					}
+					else {
+						return new { index = index , state = true , word = express[ index ] };  // 右括号可以作为表达式的末尾
+					}
+				};
 
 				fsm.Add( '(' , leftRacketOfNext );
 				fsm.Add( '0' , numberOfNext );
@@ -309,6 +338,7 @@ namespace Arithmetic_Interpreter {
 				fsm.Add( '%' , remaOfNext );
 				fsm.Add( 's' , sqrtOfNext );
 				fsm.Add( '^' , capOfNext );
+				fsm.Add( ')' , rightRacketOfNext );
 			}
 		}
 
@@ -319,6 +349,7 @@ namespace Arithmetic_Interpreter {
 				if (fsm[ express[ index ] ] != null) {
 					dynamic component = fsm[ express[ index ] ]( index , express , token );
 					if (component.state) {
+						index = component.index;
 						token.Add( component.word.GetType( ).ToString( ) == "System.String" ? component.word : component.word.ToString( ) );
 					}
 				}

@@ -11,10 +11,11 @@ namespace Arithmetic_Interpreter {
 	public partial class Form1 : Form {
 		public Form1( ) {
 			InitializeComponent( );
-			this.lblResult.Text = string.Empty;
+			this.lblResult.Text = String.Empty;
 		}
 
 		private void btnCalculating_Click( object sender , EventArgs e ) {
+			this.lblResult.Text = String.Empty;
 			if (this.txtInput.Text.Equals( string.Empty )) {
 				MessageBox.Show( "表达式不能为空，重新输入" , "警告" , MessageBoxButtons.OK , MessageBoxIcon.Warning );
 			}
