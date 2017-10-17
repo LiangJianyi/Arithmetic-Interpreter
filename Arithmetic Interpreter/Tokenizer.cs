@@ -146,6 +146,21 @@ namespace Arithmetic_Interpreter {
 						throw new InvalidOperationException( "左圆括号没有匹配的右圆括号。" );
 					}
 				};
+				// decimalpointOfNext 初始化要先于 numberOfNext 初始化，否则后者无法使用前者（下一个版本考虑使用接口）
+				Func<int , string , List<string> , dynamic> decimalpointOfNext = ( index , express , token ) => {
+					if (index < express.Length - 1) {
+						int next = index + 1;
+						if (isNumber( express[ next ] )) {
+							return new { index = index , state = true , word = express[ index ] };
+						}
+						else {
+							throw new InvalidOperationException( "小数点右边只能是数字。" );
+						}
+					}
+					else {
+						throw new InvalidOperationException( "小数点不能用作表达式的结尾。" );
+					}
+				};
 				Func<int , string , List<string> , dynamic> numberOfNext = ( index , express , token ) => {
 					if (index < express.Length - 1) {
 						int next = index + 1;
@@ -155,11 +170,24 @@ namespace Arithmetic_Interpreter {
 						else if (isNumber( express[ next ] )) {
 							string word = express[ index ].ToString( ) + express[ next ].ToString( );
 							next++;
-							if (true) { // 要注意接下来的小数点
+							bool decimalpointOfUnique = true;
+							if (decimalpointOfNext( next , express , token ).state) { // 要注意接下来的小数点
 								while (isNumber( express[ next ] ) || express[ next ] == '.') {
-									word += express[ next ];
-									next++;
-								} 
+									if (express[ next ] == '.') {
+										if (decimalpointOfUnique) {
+											decimalpointOfUnique = false;
+											word += express[ next ];
+											next++;
+										}
+										else {
+											throw new InvalidOperationException( "一个表达式项只能有一个小数点。" );
+										}
+									}
+									else {
+										word += express[ next ];
+										next++;
+									}
+								}
 							}
 							return new { index = next - 1 , state = true , word = word };
 						}
@@ -197,20 +225,6 @@ namespace Arithmetic_Interpreter {
 					}
 					else {
 						throw new InvalidOperationException( "算术运算符不能用作表达式的结尾。" );
-					}
-				};
-				Func<int , string , List<string> , dynamic> decimalpointOfNext = ( index , express , token ) => {
-					if (index < express.Length - 1) {
-						int next = index + 1;
-						if (isNumber( express[ next ] )) {
-							return new { index = index , state = true , word = express[ index ] };
-						}
-						else {
-							throw new InvalidOperationException( "小数点右边只能是数字。" );
-						}
-					}
-					else {
-						throw new InvalidOperationException( "小数点不能用作表达式的结尾。" );
 					}
 				};
 				Func<int , string , List<string> , dynamic> piOfNext = ( index , express , token ) => {
