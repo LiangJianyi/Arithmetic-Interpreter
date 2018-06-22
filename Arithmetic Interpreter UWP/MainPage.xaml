@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="Arithmetic_Interpreter_UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Arithmetic_Interpreter_UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <local:ButtonStackCommonProperties x:Key="buttonStackCommonProperties"></local:ButtonStackCommonProperties>
+    </Page.Resources>
+    <Grid Name="Root" Background="{StaticResource VisualStudioIDEDarkTheme}"
+          Loading="Root_Loading">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition MaxWidth="500"/>
+        </Grid.ColumnDefinitions>
+        <RichEditBox Name="CodeEditor" Width="800" Background="{StaticResource DarkEditor}"
+                     PointerPressed="CodeEditor_PointerPressed"
+                     PointerEntered="CodeEditor_PointerEntered"
+                     PointerReleased="CodeEditor_PointerReleased"/>
+        <StackPanel Name="ButtonStack" Grid.Column="1" DataContext="{StaticResource buttonStackCommonProperties}">
+            <Button Name="SetFocusButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Set Focus" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"
+                    Click="SetFocusButton_Click"/>
+            <Button Name="RunButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Run" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
+            <Button Name="FormatButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Format" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
+        </StackPanel>
+    </Grid>
+</Page>
