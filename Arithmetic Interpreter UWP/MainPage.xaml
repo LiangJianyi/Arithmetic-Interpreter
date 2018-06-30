@@ -21,7 +21,7 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition MaxWidth="500"/>
         </Grid.ColumnDefinitions>
-        <RichEditBox Name="CodeEditor" Width="800" Background="{StaticResource DarkEditor}"
+        <RichEditBox Name="CodeEditor" Width="800" Background="{StaticResource DarkEditor}" IsSpellCheckEnabled="False"
                      PointerPressed="CodeEditor_PointerPressed"
                      PointerEntered="CodeEditor_PointerEntered"
                      PointerReleased="CodeEditor_PointerReleased"/>
