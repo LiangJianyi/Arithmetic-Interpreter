@@ -36,6 +36,7 @@ namespace Arithmetic_Interpreter_UWP {
 
 		private void CodeEditor_PointerEntered(object sender, PointerRoutedEventArgs e) {
 			System.Diagnostics.Debug.WriteLine("fired pointer enter.");
+
 		}
 
 		private void CodeEditor_PointerReleased(object sender, PointerRoutedEventArgs e) {
