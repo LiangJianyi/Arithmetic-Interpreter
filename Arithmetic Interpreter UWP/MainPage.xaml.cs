@@ -26,17 +26,13 @@ namespace Arithmetic_Interpreter_UWP {
 			}
 		}
 
-		private static MenuFlyout CreateMenuFlyout() {
+		private static MenuFlyout CreateMenuFlyout(List<string> list) {
 			MenuFlyout menuFlyout = new MenuFlyout();
-			MenuFlyoutItem mfi1 = new MenuFlyoutItem();
-			MenuFlyoutItem mfi2 = new MenuFlyoutItem();
-			MenuFlyoutItem mfi3 = new MenuFlyoutItem();
-			mfi1.Text = "valensiya";
-			mfi2.Text = "janyee";
-			mfi3.Text = "jupiter";
-			menuFlyout.Items.Add(mfi1);
-			menuFlyout.Items.Add(mfi2);
-			menuFlyout.Items.Add(mfi3);
+			foreach (var item in list) {
+				var menuFlyoutItem = new MenuFlyoutItem();
+				menuFlyoutItem.Text = item;
+				menuFlyout.Items.Add(menuFlyoutItem);
+			}
 			return menuFlyout;
 		}
 
@@ -57,10 +53,6 @@ namespace Arithmetic_Interpreter_UWP {
 			//System.Diagnostics.Debug.WriteLine("fired pointer release.");
 		}
 
-		private void Root_Loading(FrameworkElement sender, object args) {
-			CodeEditor.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(CodeEditor_PointerPressed), true);
-		}
-
 		private void CodeEditor_KeyUp(object sender, KeyRoutedEventArgs e) {
 			CodeEditor.Document.Selection.GetPoint(
 				horizontalAlign: Windows.UI.Text.HorizontalCharacterAlignment.Left,
@@ -69,7 +61,7 @@ namespace Arithmetic_Interpreter_UWP {
 				point: out Point point
 			);
 			textBlock1.Text = point.ToString();
-			MenuFlyout menuFlyout = CreateMenuFlyout();
+			MenuFlyout menuFlyout = CreateMenuFlyout(Class1.IntellisenseList);
 			switch (e.Key) {
 				case Windows.System.VirtualKey.Q:
 					menuFlyout.ShowAt(null, new Point(point.X + 10, point.Y + 10));

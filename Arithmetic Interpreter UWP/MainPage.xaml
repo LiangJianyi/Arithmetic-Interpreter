@@ -72,8 +72,7 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Name="Root" Background="{StaticResource VisualStudioIDEDarkTheme}"
-          Loading="Root_Loading">
+    <Grid Name="Root" Background="{StaticResource VisualStudioIDEDarkTheme}">
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
