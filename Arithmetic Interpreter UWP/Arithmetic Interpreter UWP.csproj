@@ -132,6 +132,12 @@
       <Version>6.1.5</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeAnalyser\CodeAnalyser.csproj">
+      <Project>{b5b71426-21ae-4a89-a42c-3f14bae8039f}</Project>
+      <Name>CodeAnalyser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

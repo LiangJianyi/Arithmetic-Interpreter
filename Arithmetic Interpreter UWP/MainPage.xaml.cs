@@ -26,25 +26,68 @@ namespace Arithmetic_Interpreter_UWP {
 			}
 		}
 
+		private static MenuFlyout CreateMenuFlyout() {
+			MenuFlyout menuFlyout = new MenuFlyout();
+			MenuFlyoutItem mfi1 = new MenuFlyoutItem();
+			MenuFlyoutItem mfi2 = new MenuFlyoutItem();
+			MenuFlyoutItem mfi3 = new MenuFlyoutItem();
+			mfi1.Text = "valensiya";
+			mfi2.Text = "janyee";
+			mfi3.Text = "jupiter";
+			menuFlyout.Items.Add(mfi1);
+			menuFlyout.Items.Add(mfi2);
+			menuFlyout.Items.Add(mfi3);
+			return menuFlyout;
+		}
+
 		private void SetFocusButton_Click(object sender, RoutedEventArgs e) {
 			CodeEditor.Focus(FocusState.Programmatic);
 		}
 
 		private void CodeEditor_PointerPressed(object sender, PointerRoutedEventArgs e) {
-			System.Diagnostics.Debug.WriteLine("fired pointer presse.");
+			//System.Diagnostics.Debug.WriteLine("fired pointer presse.");
 		}
 
 		private void CodeEditor_PointerEntered(object sender, PointerRoutedEventArgs e) {
-			System.Diagnostics.Debug.WriteLine("fired pointer enter.");
+			//System.Diagnostics.Debug.WriteLine("fired pointer enter.");
 
 		}
 
 		private void CodeEditor_PointerReleased(object sender, PointerRoutedEventArgs e) {
-			System.Diagnostics.Debug.WriteLine("fired pointer release.");
+			//System.Diagnostics.Debug.WriteLine("fired pointer release.");
 		}
 
 		private void Root_Loading(FrameworkElement sender, object args) {
 			CodeEditor.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(CodeEditor_PointerPressed), true);
+		}
+
+		private void CodeEditor_KeyUp(object sender, KeyRoutedEventArgs e) {
+			MenuFlyout menuFlyout = CreateMenuFlyout();
+			switch (e.Key) {
+				case Windows.System.VirtualKey.Q:
+					menuFlyout.ShowAt(sender as RichEditBox, new Point(20, 2));
+					break;
+				case Windows.System.VirtualKey.E:
+					menuFlyout.ShowAt(sender as RichEditBox);
+					break;
+				default:
+					break;
+			}
+		}
+
+		private static void PutCursorFollowEndPositionBeforeSetText(RichEditBox editor) {
+			editor.Document.Selection.StartPosition += 1;
+			editor.Document.Selection.EndPosition += 1;
+		}
+
+		private static void PutCursorFollowEndPositionAfterSetText(RichEditBox editor, int wordLength) {
+			editor.Document.Selection.StartPosition += wordLength;
+			editor.Document.Selection.EndPosition += wordLength;
+		}
+
+		private static bool IsShiftKeyPressed() {
+			var shiftState = Windows.UI.Core.CoreWindow.GetForCurrentThread().GetKeyState(Windows.System.VirtualKey.Shift);
+			return (shiftState & Windows.UI.Core.CoreVirtualKeyStates.Down) == Windows.UI.Core.CoreVirtualKeyStates.Down;
 		}
 	}
 }

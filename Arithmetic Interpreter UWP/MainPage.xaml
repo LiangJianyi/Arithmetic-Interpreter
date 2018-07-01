@@ -86,12 +86,21 @@
                      PointerPressed="CodeEditor_PointerPressed"
                      PointerEntered="CodeEditor_PointerEntered"
                      PointerReleased="CodeEditor_PointerReleased"
-                     />
+                     KeyUp="CodeEditor_KeyUp"/>
         <StackPanel Name="ButtonStack" Grid.Column="1" DataContext="{StaticResource buttonStackCommonProperties}">
             <Button Name="SetFocusButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Set Focus" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"
                     Click="SetFocusButton_Click"/>
             <Button Name="RunButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Run" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
             <Button Name="FormatButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Format" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
         </StackPanel>
+        <!--<RichEditBox Grid.Row="0" Grid.Column="2" Style="{StaticResource RichEditBoxStyle}" Name="CodeEditor2" Background="{StaticResource DarkEditor}" Foreground="AliceBlue" IsSpellCheckEnabled="False">
+            <RichEditBox.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="apple"/>
+                    <MenuFlyoutItem Text="banana"/>
+                    <MenuFlyoutItem Text="watermelon"/>
+                </MenuFlyout>
+            </RichEditBox.ContextFlyout>
+        </RichEditBox>-->
     </Grid>
 </Page>
