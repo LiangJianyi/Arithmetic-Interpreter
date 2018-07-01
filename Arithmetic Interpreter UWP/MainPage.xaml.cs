@@ -62,13 +62,20 @@ namespace Arithmetic_Interpreter_UWP {
 		}
 
 		private void CodeEditor_KeyUp(object sender, KeyRoutedEventArgs e) {
+			CodeEditor.Document.Selection.GetPoint(
+				horizontalAlign: Windows.UI.Text.HorizontalCharacterAlignment.Left,
+				verticalAlign: Windows.UI.Text.VerticalCharacterAlignment.Baseline,
+				options: Windows.UI.Text.PointOptions.ClientCoordinates,
+				point: out Point point
+			);
+			textBlock1.Text = point.ToString();
 			MenuFlyout menuFlyout = CreateMenuFlyout();
 			switch (e.Key) {
 				case Windows.System.VirtualKey.Q:
-					menuFlyout.ShowAt(sender as RichEditBox, new Point(20, 2));
+					menuFlyout.ShowAt(null, new Point(point.X + 10, point.Y + 10));
 					break;
 				case Windows.System.VirtualKey.E:
-					menuFlyout.ShowAt(sender as RichEditBox);
+					menuFlyout.ShowAt(null, new Point(point.X + 10, point.Y + 10));
 					break;
 				default:
 					break;
