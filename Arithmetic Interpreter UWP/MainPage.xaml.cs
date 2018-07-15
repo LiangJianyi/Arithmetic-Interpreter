@@ -14,7 +14,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Arithmetic_Interpreter_UWP {
+	using PointOptions = Windows.UI.Text.PointOptions;
 	public sealed partial class MainPage : Page {
+		private Window _window = Window.Current;
+
 		public MainPage() {
 			this.InitializeComponent();
 			if (Resources["buttonStackCommonProperties"] is ButtonStackCommonProperties buttonStackCommonProperties) {
@@ -54,7 +57,9 @@ namespace Arithmetic_Interpreter_UWP {
 		}
 
 		private void CodeEditor_KeyUp(object sender, KeyRoutedEventArgs e) {
-			CodeEditor.Document.Selection.GetPoint(
+			RichEditBox richEditBox = sender as RichEditBox;
+			richEditBox.Document.Selection.ScrollIntoView(PointOptions.Start);
+			richEditBox.Document.Selection.GetPoint(
 				horizontalAlign: Windows.UI.Text.HorizontalCharacterAlignment.Left,
 				verticalAlign: Windows.UI.Text.VerticalCharacterAlignment.Baseline,
 				options: Windows.UI.Text.PointOptions.ClientCoordinates,
@@ -64,13 +69,50 @@ namespace Arithmetic_Interpreter_UWP {
 			MenuFlyout menuFlyout = CreateMenuFlyout(Class1.IntellisenseList);
 			switch (e.Key) {
 				case Windows.System.VirtualKey.Q:
-					menuFlyout.ShowAt(null, new Point(point.X + 10, point.Y + 10));
+					this.ShowIntellisense(point.X + 10, point.Y + 10, (x, y) => {
+						menuFlyout.ShowAt(richEditBox, new Point(x, y));
+					}); 
 					break;
 				case Windows.System.VirtualKey.E:
-					menuFlyout.ShowAt(null, new Point(point.X + 10, point.Y + 10));
+					this.ShowIntellisense(point.X + 10, point.Y + 10, (x, y) => {
+						menuFlyout.ShowAt(richEditBox, new Point(x, y));
+					}); 
 					break;
 				default:
 					break;
+			}
+		}
+
+		private void ShowIntellisense(double x, double y, Action<double, double> action) {
+			if (x < 0) {
+				x = 0;
+			}
+			else if (x > this._window.Bounds.Width) {
+				x = this._window.Bounds.Width;
+			}
+			else {
+				if (x > CodeEditor.ActualWidth) {
+					x = CodeEditor.ActualWidth;
+				}
+			}
+			if (y < 0) {
+				y = 0;
+			}
+			else if (y > this._window.Bounds.Height) {
+				y = this._window.Bounds.Height;
+			}
+			else {
+				if (y > CodeEditor.ActualHeight) {
+					y = CodeEditor.ActualHeight;
+				}
+			}
+			System.Diagnostics.Debug.WriteLine($"{x},{y}");
+			try {
+				action(x, y);
+			}
+			catch (ArgumentException argexp) {
+				// Coordinates out of range
+				System.Diagnostics.Debug.WriteLine(argexp.Message);
 			}
 		}
 

@@ -101,6 +101,6 @@
                 </MenuFlyout>
             </RichEditBox.ContextFlyout>
         </RichEditBox>-->
-        <TextBlock Grid.Row="0" Grid.Column="2" Name="textBlock1" Foreground="AliceBlue"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Name="textBlock1" Foreground="AliceBlue" Margin="0,500,0,0"/>
     </Grid>
 </Page>
