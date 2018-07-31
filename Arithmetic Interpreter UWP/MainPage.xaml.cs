@@ -27,6 +27,13 @@ namespace Arithmetic_Interpreter_UWP {
 				buttonStackCommonProperties.FontSize = 18;
 				buttonStackCommonProperties.Margin = new Thickness(0, 20, 0, 0);
 			}
+			SetTitleBarTheme();
+		}
+
+		private static void SetTitleBarTheme() {
+			var titlebar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+			titlebar.BackgroundColor = (Application.Current.Resources["TitleBarDarkTheme"] as AcrylicBrush).TintColor;
+			titlebar.ButtonBackgroundColor = (Application.Current.Resources["TitleBarDarkTheme"] as AcrylicBrush).TintColor;
 		}
 
 		private static MenuFlyout CreateMenuFlyout(List<string> list) {
