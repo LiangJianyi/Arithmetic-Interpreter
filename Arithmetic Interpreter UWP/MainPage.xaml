@@ -87,8 +87,6 @@
                      PointerReleased="CodeEditor_PointerReleased"
                      KeyUp="CodeEditor_KeyUp"/>
         <StackPanel Name="ButtonStack" Grid.Column="1" DataContext="{StaticResource buttonStackCommonProperties}">
-            <Button Name="SetFocusButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Set Focus" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"
-                    Click="SetFocusButton_Click"/>
             <Button Name="RunButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Run" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
             <Button Name="FormatButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Format" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
         </StackPanel>

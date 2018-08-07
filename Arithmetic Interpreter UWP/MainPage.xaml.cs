@@ -46,23 +46,6 @@ namespace Arithmetic_Interpreter_UWP {
 			return menuFlyout;
 		}
 
-		private void SetFocusButton_Click(object sender, RoutedEventArgs e) {
-			CodeEditor.Focus(FocusState.Programmatic);
-		}
-
-		private void CodeEditor_PointerPressed(object sender, PointerRoutedEventArgs e) {
-			//System.Diagnostics.Debug.WriteLine("fired pointer presse.");
-		}
-
-		private void CodeEditor_PointerEntered(object sender, PointerRoutedEventArgs e) {
-			//System.Diagnostics.Debug.WriteLine("fired pointer enter.");
-
-		}
-
-		private void CodeEditor_PointerReleased(object sender, PointerRoutedEventArgs e) {
-			//System.Diagnostics.Debug.WriteLine("fired pointer release.");
-		}
-
 		private void CodeEditor_KeyUp(object sender, KeyRoutedEventArgs e) {
 			RichEditBox richEditBox = sender as RichEditBox;
 			richEditBox.Document.Selection.ScrollIntoView(PointOptions.Start);
