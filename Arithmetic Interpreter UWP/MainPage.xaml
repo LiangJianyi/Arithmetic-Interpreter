@@ -74,31 +74,20 @@
     </Page.Resources>
     <Grid Name="Root" Background="{StaticResource VisualStudioIDEDarkTheme}">
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition MaxWidth="500"/>
+            <ColumnDefinition MaxWidth="300"/>
         </Grid.ColumnDefinitions>
-        <RichEditBox Style="{StaticResource RichEditBoxStyle}" Name="CodeEditor" Width="800" Background="{StaticResource DarkEditor}" Foreground="AliceBlue" IsSpellCheckEnabled="False"
-                     PointerPressed="CodeEditor_PointerPressed"
-                     PointerEntered="CodeEditor_PointerEntered"
-                     PointerReleased="CodeEditor_PointerReleased"
+        <CommandBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource VisualStudioIDEDarkTheme}">
+            <AppBarButton Icon="OpenFile" Label="OpenFile" Foreground="AliceBlue"/>
+            <AppBarButton Icon="Save" Label="SaveFile" Foreground="AliceBlue"/>
+            <AppBarButton Icon="Play" Label="Run" Foreground="AliceBlue"/>
+            <AppBarButton Icon="Font" Label="Format" Foreground="AliceBlue"/>
+        </CommandBar>
+        <RichEditBox Style="{StaticResource RichEditBoxStyle}" Grid.Row="1" Grid.Column="0" Name="CodeEditor" Background="{StaticResource DarkEditor}" Foreground="AliceBlue" IsSpellCheckEnabled="False"
                      KeyUp="CodeEditor_KeyUp"/>
-        <StackPanel Name="ButtonStack" Grid.Column="1" DataContext="{StaticResource buttonStackCommonProperties}">
-            <Button Name="RunButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Run" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
-            <Button Name="FormatButton" Width="{Binding Path=Width}" Height="{Binding Path=Height}" Content="Format" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Margin="{Binding Margin}"/>
-        </StackPanel>
-        <!--<RichEditBox Grid.Row="0" Grid.Column="2" Style="{StaticResource RichEditBoxStyle}" Name="CodeEditor2" Background="{StaticResource DarkEditor}" Foreground="AliceBlue" IsSpellCheckEnabled="False">
-            <RichEditBox.ContextFlyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem Text="apple"/>
-                    <MenuFlyoutItem Text="banana"/>
-                    <MenuFlyoutItem Text="watermelon"/>
-                </MenuFlyout>
-            </RichEditBox.ContextFlyout>
-        </RichEditBox>-->
-        <TextBlock Grid.Row="0" Grid.Column="1" Name="textBlock1" Foreground="AliceBlue" Margin="0,500,0,0"/>
     </Grid>
 </Page>

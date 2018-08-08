@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Arithmetic_Interpreter_UWP {
 	using PointOptions = Windows.UI.Text.PointOptions;
+	using Debug = System.Diagnostics.Debug;
+
 	public sealed partial class MainPage : Page {
 		private Window _window = Window.Current;
 
@@ -55,7 +57,7 @@ namespace Arithmetic_Interpreter_UWP {
 				options: Windows.UI.Text.PointOptions.ClientCoordinates,
 				point: out Point point
 			);
-			textBlock1.Text = point.ToString();
+			Debug.WriteLine($"point: {point.ToString()}");
 			MenuFlyout menuFlyout = CreateMenuFlyout(Class1.IntellisenseList);
 			switch (e.Key) {
 				case Windows.System.VirtualKey.Q:
