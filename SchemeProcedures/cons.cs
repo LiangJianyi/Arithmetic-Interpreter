@@ -41,6 +41,6 @@ namespace Arithmetic_Interpreter_UWP {
 			return this._car.GetHashCode() ^ this._cdr.GetHashCode();
 		}
 		public static bool operator ==(Cons<T> consLeft, Cons<T> consRight) => consLeft.Equals(consRight);
-		public static bool operator !=(Cons<T> consLeft, Cons<T> consRight) => consLeft.Equals(consRight);
+		public static bool operator !=(Cons<T> consLeft, Cons<T> consRight) => !(consLeft.Equals(consRight));
 	}
 }
