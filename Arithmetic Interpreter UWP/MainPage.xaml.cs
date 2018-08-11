@@ -58,7 +58,7 @@ namespace Arithmetic_Interpreter_UWP {
 				point: out Point point
 			);
 			Debug.WriteLine($"point: {point.ToString()}");
-			MenuFlyout menuFlyout = CreateMenuFlyout(Class1.IntellisenseList);
+			MenuFlyout menuFlyout = CreateMenuFlyout(new List<string>() { "Google","Apple","Microsoft" });
 			switch (e.Key) {
 				case Windows.System.VirtualKey.Q:
 					this.ShowIntellisense(point.X + 10, point.Y + 10, (x, y) => {
