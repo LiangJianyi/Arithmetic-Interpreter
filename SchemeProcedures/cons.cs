@@ -26,6 +26,9 @@ namespace Arithmetic_Interpreter_UWP {
 			}
 		}
 
+		public static T GetCar(Cons<T> cons) => cons._car;
+		public static T GetCdr(Cons<T> cons) => cons._cdr;
+
 		public override bool Equals(object obj) {
 			if (obj is Cons<T> target) {
 				return EqualityComparer<T>.Default.Equals(this.Car, target.Car) && EqualityComparer<T>.Default.Equals(this.Cdr, target.Cdr);
@@ -34,9 +37,10 @@ namespace Arithmetic_Interpreter_UWP {
 				return false;
 			}
 		}
-
 		public override int GetHashCode() {
 			return this._car.GetHashCode() ^ this._cdr.GetHashCode();
 		}
+		public static bool operator ==(Cons<T> consLeft, Cons<T> consRight) => consLeft.Equals(consRight);
+		public static bool operator !=(Cons<T> consLeft, Cons<T> consRight) => consLeft.Equals(consRight);
 	}
 }
