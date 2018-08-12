@@ -76,18 +76,22 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="10*"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition MaxWidth="300"/>
         </Grid.ColumnDefinitions>
-        <CommandBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource VisualStudioIDEDarkTheme}">
-            <AppBarButton Icon="OpenFile" Label="OpenFile" Foreground="AliceBlue"/>
-            <AppBarButton Icon="Save" Label="SaveFile" Foreground="AliceBlue"/>
-            <AppBarButton Icon="Play" Label="Run" Foreground="AliceBlue"/>
-            <AppBarButton Icon="Font" Label="Format" Foreground="AliceBlue"/>
+        <CommandBar Name="CommandBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource VisualStudioIDEDarkTheme}">
+            <AppBarButton Name="OpenFileAppBarButton" Icon="OpenFile" Label="OpenFile" Foreground="AliceBlue"/>
+            <AppBarButton Name="SaveAppBarButton" Icon="Save" Label="SaveFile" Foreground="AliceBlue"/>
+            <AppBarButton Name="RunAppBarButton" Icon="Play" Label="Run" Foreground="AliceBlue"/>
+            <AppBarButton Name="FormatAppBarButton" Icon="Font" Label="Format" Foreground="AliceBlue"/>
         </CommandBar>
         <RichEditBox Style="{StaticResource RichEditBoxStyle}" Grid.Row="1" Grid.Column="0" Name="CodeEditor" Background="{StaticResource DarkEditor}" Foreground="AliceBlue" IsSpellCheckEnabled="False"
                      KeyUp="CodeEditor_KeyUp"/>
+        <Border Background="LightGray" BorderThickness="2" Grid.Row="2" Grid.ColumnSpan="3">
+            <RichTextBlock Name="Console"></RichTextBlock>
+        </Border>
     </Grid>
 </Page>
