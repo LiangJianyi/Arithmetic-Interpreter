@@ -148,23 +148,28 @@ namespace Arithmetic_Interpreter_UWP {
 		}
 
 		private void AppBarRunButton_PointerPressed(object sender, PointerRoutedEventArgs e) {
-			this._consoleState = true;
-			this.ConsoleWindowSpring();
-			e.Handled = true;
-
 			CodeEditor.Document.GetText(Windows.UI.Text.TextGetOptions.UseObjectText, out string result);
 			if (Console.Blocks.Count > 0) {
 				Console.Blocks.Clear();
 			}
-			LinkedList<string> tokens = Tokenizer.GetTokens(result);
-			foreach (var token in tokens) {
-				Paragraph paragraph = new Paragraph();
-				paragraph.Inlines.Add(new Run() { Text = token });
-				Debug.WriteLine($"{token}");
-				Console.Blocks.Add(paragraph);
+			Tokenizer tokenizer = new Tokenizer(result, new char[] { ' ' }, new char[] { '(', ')', '[', ']' });
+			string[] tokens = tokenizer.GetTokens();
+			if (tokens != null) {
+				this._consoleState = true;
+				foreach (var token in tokens) {
+					Paragraph paragraph = new Paragraph();
+					paragraph.Inlines.Add(new Run() { Text = token });
+					Debug.WriteLine($"{token}");
+					Console.Blocks.Add(paragraph);
+				}
+				Debug.WriteLine("\n");
+				Debug.WriteLine(Console.Blocks.Count);
 			}
-			Debug.WriteLine("\n");
-			Debug.WriteLine(Console.Blocks.Count);
+			else {
+				this._consoleState = false;
+			}
+			this.ConsoleWindowSpring();
+			e.Handled = true;
 		}
 
 		/// <summary>
@@ -183,17 +188,6 @@ namespace Arithmetic_Interpreter_UWP {
 				Console.Width = 0;
 				Console.Height = 0;
 			}
-		}
-	}
-
-	public static class Tokenizer {
-		public static LinkedList<string> GetTokens(string text) {
-			string[] tokens = text.Split(new char[] { ' ', '(', ')', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
-			LinkedList<string> result = new LinkedList<string>();
-			foreach (var token in tokens) {
-				result.AddLast(token);
-			}
-			return result;
 		}
 	}
 }

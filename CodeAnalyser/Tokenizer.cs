@@ -1,162 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Security;
-using System.Resources;
-using System.Collections;
-using System.Security.Permissions;
-using System.Configuration.Assemblies;
-using System.Reflection;
-using System.Diagnostics;
-using Microsoft.Win32;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.Versioning;
-using System.Diagnostics.Contracts;
-using System.Text;
+﻿using System.Linq;
 
 namespace Arithmetic_Interpreter_UWP {
-	public static class Tokenizer {
-		private static int Length = Text.Length;
+	public class Tokenizer {
+		private string _text;
+		private char[] _seperators;
+		private char[] _singles;
 
-		public static string Text;
-
-		public static LinkedList<string> GetTokens(string text) {
-			string[] tokens = text.Split(new char[] { ' ', '(', ')', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
-			LinkedList<string> result = new LinkedList<string>();
-			foreach (var token in tokens) {
-				result.AddLast(token);
-			}
-			return result;
+		/// <summary>
+		/// 实例化一个 Splitor
+		/// </summary>
+		/// <param name="text">源字符串</param>
+		/// <param name="seperators">依据该数组中的字符进行切割</param>
+		/// <param name="singles">需要把单个字符作为 token 的字符集</param>
+		public Tokenizer(string text, char[] seperators, char[] singles) {
+			this._text = text;
+			this._seperators = seperators;
+			this._singles = singles;
 		}
 
-		private static String[] Split(params char[] separator) {
-			Contract.Ensures(Contract.Result<String[]>() != null);
-			return SplitInternal(separator, Int32.MaxValue, StringSplitOptions.None);
-		}
-
-		private static T Result<T>() { return default(T); }
-
-		private static String[] SplitInternal(char[] separator, int count, StringSplitOptions options) {
-			if (count < 0)
-				throw new ArgumentOutOfRangeException("count");
-
-			if (options < StringSplitOptions.None || options > StringSplitOptions.RemoveEmptyEntries)
-				throw new ArgumentException();
-			Contract.Ensures(Contract.Result<String[]>() != null);
-			Contract.EndContractBlock();
-
-			bool omitEmptyEntries = (options == StringSplitOptions.RemoveEmptyEntries);
-
-			if ((count == 0) || (omitEmptyEntries && Length == 0)) {
-				return new String[0];
-			}
-
-			int[] sepList = new int[Length];
-			int numReplaces = MakeSeparatorList(separator, ref sepList);
-
-			//Handle the special case of no replaces and special count.
-			if (0 == numReplaces || count == 1) {
-				String[] stringArray = new String[1];
-				stringArray[0] = Text;
-				return stringArray;
-			}
-
-			//if (omitEmptyEntries) {
-			//	return InternalSplitOmitEmptyEntries(sepList, null, numReplaces, count);
-			//}
-			//else {
-			//	return InternalSplitKeepEmptyEntries(sepList, null, numReplaces, count);
-			//}
-
-			return InternalSplitOmitEmptyEntries(sepList, null, numReplaces, count);
-		}
-
-		// This function will not keep the Empty String 
-		private static String[] InternalSplitOmitEmptyEntries(Int32[] sepList, Int32[] lengthList, Int32 numReplaces, int count) {
-			Contract.Requires(numReplaces >= 0);
-			Contract.Requires(count >= 2);
-			Contract.Ensures(Contract.Result<String[]>() != null);
-
-			// 分配数组以保存项目。 在此函数中可能无法完全填充此数组，我们将创建一个新数组并复制对该新数组的字符串引用。
-
-			int maxItems = (numReplaces < count) ? (numReplaces + 1) : count;
-			String[] splitStrings = new String[maxItems];
-
-			int currIndex = 0;
-			int arrIndex = 0;
-
-			for (int i = 0; i < numReplaces && currIndex < Length; i++) {
-				if (sepList[i] - currIndex > 0) {
-					splitStrings[arrIndex++] = Text.Substring(currIndex, sepList[i] - currIndex);
+		/// <summary>
+		/// 切割字串
+		/// </summary>
+		/// <returns></returns>
+		public string[] GetTokens() {
+			string[] temp = null;
+			for (int i = 0; i < _text.Length; i++) {
+				if (_singles.Contains(_text[i])) {
+					FillArr(ref temp, _text.Substring(i, 1));
 				}
-				currIndex = sepList[i] + ((lengthList == null) ? 1 : lengthList[i]);
-				if (arrIndex == count - 1) {
-					// If all the remaining entries at the end are empty, skip them
-					while (i < numReplaces - 1 && currIndex == sepList[++i]) {
-						currIndex += ((lengthList == null) ? 1 : lengthList[i]);
-					}
-					break;
+				else if (_seperators.Contains(_text[i])) {
+					continue;
+				}
+				else {
+					(int start, int end) = GetRange(ref i);
+					FillArr(ref temp, _text.Substring(start, end - start + 1));
 				}
 			}
-
-			// we must have at least one slot left to fill in the last string.
-			Contract.Assert(arrIndex < maxItems);
-
-			//Handle the last string at the end of the array if there is one.
-			if (currIndex < Length) {
-				splitStrings[arrIndex++] = Text.Substring(currIndex);
-			}
-
-			String[] stringArray = splitStrings;
-			if (arrIndex != maxItems) {
-				stringArray = new String[arrIndex];
-				for (int j = 0; j < arrIndex; j++) {
-					stringArray[j] = splitStrings[j];
-				}
-			}
-			return stringArray;
+			return temp;
 		}
 
-		// This function returns number of the places within baseString where 
-        // instances of characters in Separator occur.         
-        // Args: separator  -- A string containing all of the split characters.
-        //       sepList    -- an array of ints for split char indicies.
-        //--------------------------------------------------------------------    
-        [System.Security.SecuritySafeCritical]  // auto-generated
-        private static unsafe int MakeSeparatorList(char[] separator, ref int[] sepList) {
-            int foundCount=0;
- 
-            if (separator == null || separator.Length ==0) {
-                fixed (char* pwzChars = &m_firstChar) {
-                    //If they passed null or an empty string, look for whitespace.
-                    for (int i=0; i < Length && foundCount < sepList.Length; i++) {
-                        if (Char.IsWhiteSpace(pwzChars[i])) {
-                            sepList[foundCount++]=i;
-                        }
-                    }
-                }
-            } 
-            else {
-                int sepListCount = sepList.Length;
-                int sepCount = separator.Length;
-                //If they passed in a string of chars, actually look for those chars.
-                fixed (char* pwzChars = &m_firstChar, pSepChars = separator) {
-                    for (int i=0; i< Length && foundCount < sepListCount; i++) {                        
-                        char * pSep = pSepChars;
-                        for( int j =0; j < sepCount; j++, pSep++) {
-                           if ( pwzChars[i] == *pSep) {
-                               sepList[foundCount++]=i;
-                               break;
-                           }
-                        }
-                    }
-                }
-            }
-            return foundCount;
-        }
+		/// <summary>
+		/// 根据传入的索引获取组成 token 的字符范围
+		/// </summary>
+		/// <param name="index">代表 token 首字符所在的位置</param>
+		/// <returns></returns>
+		private (int Start, int End) GetRange(ref int index) {
+			int start = index;
+			while ((index < this._text.Length) &&
+					(!_seperators.Contains(_text[index])) &&
+					(!_singles.Contains(_text[index]))) {
+				index++;
+			}
+			index -= 1;
+			int end = index;
+			return (start, end);
+		}
+
+		/// <summary>
+		/// 把字符填充到保存 token 的数组
+		/// </summary>
+		/// <param name="source">保存 token 的数组的引用</param>
+		/// <param name="c">进行填充的字符</param>
+		private void FillArr(ref string[] source, string c) {
+			if (source == null || source.Length == 0) {
+				source = new string[] { c };
+			}
+			else {
+				string[] arr = new string[source.Length + 1];
+				for (int i = 0; i < source.Length; i++) {
+					arr[i] = source[i];
+				}
+				arr[arr.Length - 1] = c;
+				source = arr;
+			}
+		}
 	}
 }

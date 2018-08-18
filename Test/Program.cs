@@ -8,8 +8,8 @@ namespace Test {
 	class Program {
 		static void Main(string[] args) {
 			string text = "(((([[[[(define list-end-marks (list #\\) #\\]))";
-			Splitor splitor = new Splitor(text, new char[] { ' ' }, new char[] { '(', ')', '[', ']' });
-			var lik = splitor.Split();
+			Tokenizer splitor = new Tokenizer(text, new char[] { ' ' }, new char[] { '(', ')', '[', ']' });
+			var lik = splitor.GetTokens();
 			foreach (var item in lik) {
 				Console.WriteLine(item);
 			}
