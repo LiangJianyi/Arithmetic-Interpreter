@@ -152,16 +152,19 @@ namespace Arithmetic_Interpreter_UWP {
 			this.ConsoleWindowSpring();
 			e.Handled = true;
 
-			CodeEditor.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string result);
+			CodeEditor.Document.GetText(Windows.UI.Text.TextGetOptions.UseObjectText, out string result);
+			if (Console.Blocks.Count > 0) {
+				Console.Blocks.Clear();
+			}
 			LinkedList<string> tokens = Tokenizer.GetTokens(result);
-			LinkedList<Paragraph> paragraphs = new LinkedList<Paragraph>();
 			foreach (var token in tokens) {
-				Encoding utf8 = Encoding.UTF8;
-				byte[] bytes = utf8.GetBytes(token);
 				Paragraph paragraph = new Paragraph();
-				paragraph.Inlines.Add(new Run() { Text = utf8.GetString(bytes, 0, bytes.Length) });
+				paragraph.Inlines.Add(new Run() { Text = token });
+				Debug.WriteLine($"{token}");
 				Console.Blocks.Add(paragraph);
 			}
+			Debug.WriteLine("\n");
+			Debug.WriteLine(Console.Blocks.Count);
 		}
 
 		/// <summary>
@@ -185,7 +188,7 @@ namespace Arithmetic_Interpreter_UWP {
 
 	public static class Tokenizer {
 		public static LinkedList<string> GetTokens(string text) {
-			string[] tokens = text.Split(new char[] { ' ' });
+			string[] tokens = text.Split(new char[] { ' ', '(', ')', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 			LinkedList<string> result = new LinkedList<string>();
 			foreach (var token in tokens) {
 				result.AddLast(token);
