@@ -95,4 +95,19 @@ namespace Arithmetic_Interpreter_UWP {
 		public static bool operator !=(Cons<Tcar, Tcdr> consLeft, Cons<Tcar, Tcdr> consRight) =>
 			!(EqualityComparer<Tcar>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<Tcdr>.Default.Equals(consLeft.Cdr, consRight.Cdr));
 	}
+
+	public class Cons2<T> {
+		private LinkedList<T> _lik = new LinkedList<T>();
+		private LinkedListNode<T> _currentNode;
+
+		public Cons2(T car,T cdr) {
+			this._lik.AddFirst(new LinkedListNode<T>(car));
+			this._lik.AddAfter(this._lik.First, cdr);
+		}
+
+		public LinkedListNode<T> Car() => this._lik.First;
+		public LinkedListNode<T> Cdr() => this._lik.Last;
+		public void SetCar(T car) => this._lik.AddFirst(car);
+		public void SetCdr(T cdr) => this._lik.AddLast(cdr);
+	}
 }
