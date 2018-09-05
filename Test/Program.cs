@@ -40,7 +40,7 @@ namespace Test {
 		}
 
 		private static void Test3() {
-			Cons2<int> c1 = new Cons2<int>(1, 2);
+			Cons2 c1 = new Cons2("1");
 			print(c1.Car());
 			print(c1.Cdr());
 		}

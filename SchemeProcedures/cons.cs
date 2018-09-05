@@ -43,13 +43,13 @@ namespace Arithmetic_Interpreter_UWP {
 		public override string ToString() {
 			return $"cons({this._car}, {this._cdr})";
 		}
-		public static bool operator ==(Cons<T> consLeft, Cons<T> consRight) => 
+		public static bool operator ==(Cons<T> consLeft, Cons<T> consRight) =>
 			EqualityComparer<T>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<T>.Default.Equals(consLeft.Cdr, consRight.Cdr);
-		public static bool operator !=(Cons<T> consLeft, Cons<T> consRight) => 
+		public static bool operator !=(Cons<T> consLeft, Cons<T> consRight) =>
 			!(EqualityComparer<T>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<T>.Default.Equals(consLeft.Cdr, consRight.Cdr));
 	}
 
-	public class Cons<Tcar,Tcdr> {
+	public class Cons<Tcar, Tcdr> {
 		private Tcar _car;
 		private Tcdr _cdr;
 
@@ -73,11 +73,11 @@ namespace Arithmetic_Interpreter_UWP {
 			}
 		}
 
-		public static Tcar GetCar(Cons<Tcar,Tcdr> cons) => cons._car;
-		public static Tcdr GetCdr(Cons<Tcdr,Tcdr> cons) => cons._cdr;
+		public static Tcar GetCar(Cons<Tcar, Tcdr> cons) => cons._car;
+		public static Tcdr GetCdr(Cons<Tcdr, Tcdr> cons) => cons._cdr;
 
 		public override bool Equals(object obj) {
-			if (obj is Cons<Tcar,Tcdr> target) {
+			if (obj is Cons<Tcar, Tcdr> target) {
 				return EqualityComparer<Tcar>.Default.Equals(this.Car, target.Car) && EqualityComparer<Tcdr>.Default.Equals(this.Cdr, target.Cdr);
 			}
 			else {
@@ -90,24 +90,58 @@ namespace Arithmetic_Interpreter_UWP {
 		public override string ToString() {
 			return $"cons({this._car}, {this._cdr})";
 		}
-		public static bool operator ==(Cons<Tcar,Tcdr> consLeft, Cons<Tcar,Tcdr> consRight) => 
+		public static bool operator ==(Cons<Tcar, Tcdr> consLeft, Cons<Tcar, Tcdr> consRight) =>
 			EqualityComparer<Tcar>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<Tcdr>.Default.Equals(consLeft.Cdr, consRight.Cdr);
 		public static bool operator !=(Cons<Tcar, Tcdr> consLeft, Cons<Tcar, Tcdr> consRight) =>
 			!(EqualityComparer<Tcar>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<Tcdr>.Default.Equals(consLeft.Cdr, consRight.Cdr));
 	}
 
-	public class Cons2<T> {
-		private LinkedList<T> _lik = new LinkedList<T>();
-		private LinkedListNode<T> _currentNode;
+	public abstract class BaseCons {
+		protected string _lexical;
+	}
 
-		public Cons2(T car,T cdr) {
-			this._lik.AddFirst(new LinkedListNode<T>(car));
+	public class Cons2 : BaseCons {
+		private LinkedList<BaseCons> _lik = new LinkedList<BaseCons>();
+
+		public Cons2(string car) {
+			this._lik.AddFirst(new LinkedListNode<BaseCons>(new Atom(car)));
+			this._lik.AddAfter(this._lik.First, null);
+		}
+
+		public Cons2(Cons2 car, string cdr = null) {
+			this._lik.AddFirst(new LinkedListNode<Cons2>(car));
+			this._lik.AddAfter(this._lik.First, new Cons2(cdr));
+		}
+
+		public Cons2(string car, Cons2 cdr) {
+			this._lik.AddFirst(new LinkedListNode<Cons2>(new Cons2(car)));
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
-		public LinkedListNode<T> Car() => this._lik.First;
-		public LinkedListNode<T> Cdr() => this._lik.Last;
-		public void SetCar(T car) => this._lik.AddFirst(car);
-		public void SetCdr(T cdr) => this._lik.AddLast(cdr);
+		public Cons2(Cons2 car, Cons2 cdr = null) {
+			this._lik.AddFirst(new LinkedListNode<Cons2>(car));
+			this._lik.AddAfter(this._lik.First, cdr);
+		}
+
+		public LinkedListNode<Cons2> Car() => this._lik.First;
+		public LinkedListNode<Cons2> Cdr() => this._lik.Last;
+		public void SetCar(Cons2 car) => this._lik.AddFirst(car);
+		public void SetCdr(Cons2 cdr) => this._lik.AddLast(cdr);
+	}
+
+	public class Atom : BaseCons {
+		public Atom() {
+			base._lexical = string.Empty;
+		}
+
+		public Atom(string lex) {
+			base._lexical = lex;
+		}
+	}
+
+	public class Procedure : BaseCons {
+		public Procedure(string lex) {
+			base._lexical = lex;
+		}
 	}
 }
