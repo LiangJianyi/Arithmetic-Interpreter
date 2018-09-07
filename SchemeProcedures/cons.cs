@@ -104,27 +104,29 @@ namespace Arithmetic_Interpreter_UWP {
 		private LinkedList<BaseCons> _lik = new LinkedList<BaseCons>();
 
 		public Cons2(string car) {
-			this._lik.AddFirst(new LinkedListNode<BaseCons>(new Atom(car)));
+			this._lik.AddFirst(new Atom(car));
 			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
 		}
 
-		//public Cons2(Cons2 car, string cdr = null) {
-		//	this._lik.AddFirst(new LinkedListNode<Cons2>(car));
-		//	this._lik.AddAfter(this._lik.First, new Cons2(cdr));
-		//}
+		public Cons2(Cons2 car) {
+			this._lik.AddFirst(car);
+			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
+		}
 
-		//public Cons2(string car, Cons2 cdr) {
-		//	this._lik.AddFirst(new LinkedListNode<Cons2>(new Cons2(car)));
-		//	this._lik.AddAfter(this._lik.First, cdr);
-		//}
+		public Cons2(string car, Cons2 cdr) {
+			this._lik.AddFirst(new Atom(car));
+			this._lik.AddAfter(this._lik.First, cdr);
+		}
 
-		public Cons2(Cons2 car, Cons2 cdr = null) {
+		public Cons2(Cons2 car, Cons2 cdr) {
 			this._lik.AddFirst(new LinkedListNode<BaseCons>(car));
-			this._lik.AddAfter(this._lik.First, cdr); 
+			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
 		public LinkedListNode<BaseCons> Car() => this._lik.First;
 		public LinkedListNode<BaseCons> Cdr() => this._lik.Last;
+		public BaseCons CarValue() => this._lik.First.Value;
+		public BaseCons CdrValue() => this._lik.Last.Value;
 		public void SetCar(BaseCons car) => this._lik.AddFirst(car);
 		public void SetCdr(BaseCons cdr) => this._lik.AddLast(cdr);
 	}
