@@ -150,12 +150,8 @@ namespace Arithmetic_Interpreter_UWP {
 		public override LinkedListNode<BaseCons> Cdr => throw new NotImplementedException();
 		public override BaseCons CarValue => throw new NotImplementedException();
 		public override BaseCons CdrValue => throw new NotImplementedException();
-		public override void SetCar(BaseCons car) {
-			throw new NotImplementedException();
-		}
-		public override void SetCdr(BaseCons cdr) {
-			throw new NotImplementedException();
-		}
+		public override void SetCar(BaseCons car) => throw new NotImplementedException();
+		public override void SetCdr(BaseCons cdr) => throw new NotImplementedException();
 
 		public override string ToString() {
 			return base._lexical;
