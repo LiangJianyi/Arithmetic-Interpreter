@@ -98,6 +98,12 @@ namespace Arithmetic_Interpreter_UWP {
 
 	public abstract class BaseCons {
 		protected string _lexical;
+		public abstract LinkedListNode<BaseCons> Car { get; }
+		public abstract LinkedListNode<BaseCons> Cdr { get; }
+		public abstract BaseCons CarValue { get; }
+		public abstract BaseCons CdrValue { get; }
+		public abstract void SetCar(BaseCons car);
+		public abstract void SetCdr(BaseCons cdr);
 	}
 
 	public class Cons2 : BaseCons {
@@ -123,12 +129,12 @@ namespace Arithmetic_Interpreter_UWP {
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
-		public LinkedListNode<BaseCons> Car() => this._lik.First;
-		public LinkedListNode<BaseCons> Cdr() => this._lik.Last;
-		public BaseCons CarValue() => this._lik.First.Value;
-		public BaseCons CdrValue() => this._lik.Last.Value;
-		public void SetCar(BaseCons car) => this._lik.AddFirst(car);
-		public void SetCdr(BaseCons cdr) => this._lik.AddLast(cdr);
+		public override LinkedListNode<BaseCons> Car => this._lik.First;
+		public override LinkedListNode<BaseCons> Cdr => this._lik.Last;
+		public override BaseCons CarValue => this._lik.First.Value;
+		public override BaseCons CdrValue => this._lik.Last.Value;
+		public override void SetCar(BaseCons car) => this._lik.AddFirst(car);
+		public override void SetCdr(BaseCons cdr) => this._lik.AddLast(cdr);
 	}
 
 	public class Atom : BaseCons {
@@ -138,6 +144,17 @@ namespace Arithmetic_Interpreter_UWP {
 
 		public Atom(string lex) {
 			base._lexical = lex;
+		}
+
+		public override LinkedListNode<BaseCons> Car => throw new NotImplementedException();
+		public override LinkedListNode<BaseCons> Cdr => throw new NotImplementedException();
+		public override BaseCons CarValue => throw new NotImplementedException();
+		public override BaseCons CdrValue => throw new NotImplementedException();
+		public override void SetCar(BaseCons car) {
+			throw new NotImplementedException();
+		}
+		public override void SetCdr(BaseCons cdr) {
+			throw new NotImplementedException();
 		}
 
 		public override string ToString() {
