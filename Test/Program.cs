@@ -65,12 +65,12 @@ namespace Test {
 					Console.WriteLine(text);
 				}
 			}
-			else if (node is LinkedListNode<int> intLikNode) {
-				if (intLikNode==null) {
+			else if (node is LinkedListNode<BaseCons> consLikNode) {
+				if (consLikNode == null) {
 					Console.WriteLine("null");
 				}
 				else {
-					Console.WriteLine(intLikNode.Value);
+					Console.WriteLine(consLikNode.Value);
 				}
 			}
 		}

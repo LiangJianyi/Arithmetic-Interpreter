@@ -105,28 +105,28 @@ namespace Arithmetic_Interpreter_UWP {
 
 		public Cons2(string car) {
 			this._lik.AddFirst(new LinkedListNode<BaseCons>(new Atom(car)));
-			this._lik.AddAfter(this._lik.First, null);
+			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
 		}
 
-		public Cons2(Cons2 car, string cdr = null) {
-			this._lik.AddFirst(new LinkedListNode<Cons2>(car));
-			this._lik.AddAfter(this._lik.First, new Cons2(cdr));
-		}
+		//public Cons2(Cons2 car, string cdr = null) {
+		//	this._lik.AddFirst(new LinkedListNode<Cons2>(car));
+		//	this._lik.AddAfter(this._lik.First, new Cons2(cdr));
+		//}
 
-		public Cons2(string car, Cons2 cdr) {
-			this._lik.AddFirst(new LinkedListNode<Cons2>(new Cons2(car)));
-			this._lik.AddAfter(this._lik.First, cdr);
-		}
+		//public Cons2(string car, Cons2 cdr) {
+		//	this._lik.AddFirst(new LinkedListNode<Cons2>(new Cons2(car)));
+		//	this._lik.AddAfter(this._lik.First, cdr);
+		//}
 
 		public Cons2(Cons2 car, Cons2 cdr = null) {
-			this._lik.AddFirst(new LinkedListNode<Cons2>(car));
-			this._lik.AddAfter(this._lik.First, cdr);
+			this._lik.AddFirst(new LinkedListNode<BaseCons>(car));
+			this._lik.AddAfter(this._lik.First, cdr); 
 		}
 
-		public LinkedListNode<Cons2> Car() => this._lik.First;
-		public LinkedListNode<Cons2> Cdr() => this._lik.Last;
-		public void SetCar(Cons2 car) => this._lik.AddFirst(car);
-		public void SetCdr(Cons2 cdr) => this._lik.AddLast(cdr);
+		public LinkedListNode<BaseCons> Car() => this._lik.First;
+		public LinkedListNode<BaseCons> Cdr() => this._lik.Last;
+		public void SetCar(BaseCons car) => this._lik.AddFirst(car);
+		public void SetCdr(BaseCons cdr) => this._lik.AddLast(cdr);
 	}
 
 	public class Atom : BaseCons {
@@ -136,6 +136,10 @@ namespace Arithmetic_Interpreter_UWP {
 
 		public Atom(string lex) {
 			base._lexical = lex;
+		}
+
+		public override string ToString() {
+			return base._lexical;
 		}
 	}
 
