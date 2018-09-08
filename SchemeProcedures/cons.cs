@@ -123,10 +123,10 @@ namespace Arithmetic_Interpreter_UWP {
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
-		public LinkedListNode<BaseCons> Car() => this._lik.First;
-		public LinkedListNode<BaseCons> Cdr() => this._lik.Last;
-		public BaseCons CarValue() => this._lik.First.Value;
-		public BaseCons CdrValue() => this._lik.Last.Value;
+		public LinkedListNode<BaseCons> Car => this._lik.First;
+		public LinkedListNode<BaseCons> Cdr => this._lik.Last;
+		public BaseCons CarValue => this._lik.First.Value;
+		public BaseCons CdrValue => this._lik.Last.Value;
 		public void SetCar(BaseCons car) => this._lik.AddFirst(car);
 		public void SetCdr(BaseCons cdr) => this._lik.AddLast(cdr);
 	}
