@@ -62,22 +62,22 @@ namespace Test {
 			};
 			foreach (var item in ccc) {
 				Console.WriteLine(item.Key);
-				Console.WriteLine($"cons.Car().Previous: {item.Value.Car().Previous}");
-				Console.WriteLine($"cons.Car().Next: {item.Value.Car().Next}");
-				Console.WriteLine($"cons.Cdr().Previous: {item.Value.Cdr().Previous}");
-				Console.WriteLine($"cons.Cdr().Next: {item.Value.Cdr().Next}");
-				Console.WriteLine($"cons.CarValue(): {item.Value.CarValue()}");
-				Console.WriteLine($"cons.CdrValue(): {item.Value.CdrValue()}");
+				Console.WriteLine($"cons.Car.Previous: {item.Value.Car.Previous}");
+				Console.WriteLine($"cons.Car.Next: {item.Value.Car.Next}");
+				Console.WriteLine($"cons.Cdr.Previous: {item.Value.Cdr.Previous}");
+				Console.WriteLine($"cons.Cdr.Next: {item.Value.Cdr.Next}");
+				Console.WriteLine($"cons.CarValue: {item.Value.CarValue}");
+				Console.WriteLine($"cons.CdrValue: {item.Value.CdrValue}");
 			}
 		}
 
 		private static void Print2(Cons2 item) {
-			Console.WriteLine(item.Car().Previous);
-			Console.WriteLine(item.Car().Next);
-			Console.WriteLine(item.Cdr().Previous);
-			Console.WriteLine(item.Cdr().Next);
-			Console.WriteLine(item.CarValue());
-			Console.WriteLine(item.CdrValue());
+			Console.WriteLine(item.Car.Previous);
+			Console.WriteLine(item.Car.Next);
+			Console.WriteLine(item.Cdr.Previous);
+			Console.WriteLine(item.Cdr.Next);
+			Console.WriteLine(item.CarValue);
+			Console.WriteLine(item.CdrValue);
 		}
 
 		private static void Print(object node) {
@@ -117,6 +117,33 @@ namespace Test {
 				}
 				else {
 					Console.WriteLine(baseCons);
+				}
+			}
+		}
+
+		private static void ConsIterator(BaseCons cons, Action<BaseCons> f) {
+			void iterator(BaseCons c) {
+				if (c is Cons2 cons2) {
+					if (cons2.CarValue!=null) {
+						if (cons2.CarValue is Atom atom) {
+							f(atom);
+						}
+						else if (cons2.CarValue is Cons2 subcons) {
+							iterator(subcons);
+						}
+						else {
+							throw new InvalidCastException();
+						}
+					}
+					else {
+						throw new NullReferenceException();
+					}
+				}
+				else if (c is Atom atom) {
+					f(atom);
+				}
+				else {
+
 				}
 			}
 		}
