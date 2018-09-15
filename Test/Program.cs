@@ -7,7 +7,21 @@ using Arithmetic_Interpreter_UWP;
 namespace Test {
 	class Program {
 		static void Main(string[] args) {
-			Test3();
+			//Test3();
+			Atom atom1 = new Atom("1");
+			Atom atom2 = new Atom("2");
+			Procedure plus1 = new Procedure("+");
+			BaseCons expr1 = new Cons2(plus1, new Cons2(atom1, atom2));
+
+			Atom atom3 = new Atom("1");
+			Atom atom4 = new Atom("2");
+			Procedure plus2 = new Procedure("+");
+			BaseCons expr2 = new Cons2(plus2, new Cons2(atom3, atom4));
+
+			Console.WriteLine(expr1 == expr2);
+			Console.WriteLine(expr1 != expr2);
+			Console.WriteLine(expr1.Equals(expr2));
+
 			Console.ReadKey();
 		}
 
