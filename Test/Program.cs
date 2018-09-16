@@ -74,16 +74,15 @@ namespace Test {
 				{ "c8", c8 },
 				{ "c9", c9 }
 			};
-			//foreach (var item in ccc) {
-			//	Console.WriteLine(item.Key);
-			//	Console.WriteLine($"cons.Car.Previous: {item.Value.Car.Previous}");
-			//	Console.WriteLine($"cons.Car.Next: {item.Value.Car.Next}");
-			//	Console.WriteLine($"cons.Cdr.Previous: {item.Value.Cdr.Previous}");
-			//	Console.WriteLine($"cons.Cdr.Next: {item.Value.Cdr.Next}");
-			//	Console.WriteLine($"cons.CarValue: {item.Value.CarValue}");
-			//	Console.WriteLine($"cons.CdrValue: {item.Value.CdrValue}");
-			//}
-			ConsIterator(c9, x => Console.WriteLine(x));
+			foreach (var item in ccc) {
+				Console.WriteLine(item.Key);
+				Console.WriteLine($"cons.Car.Previous: {item.Value.Car.Previous}");
+				Console.WriteLine($"cons.Car.Next: {item.Value.Car.Next}");
+				Console.WriteLine($"cons.Cdr.Previous: {item.Value.Cdr.Previous}");
+				Console.WriteLine($"cons.Cdr.Next: {item.Value.Cdr.Next}");
+				Console.WriteLine($"cons.CarValue: {item.Value.CarValue}");
+				Console.WriteLine($"cons.CdrValue: {item.Value.CdrValue}");
+			}
 		}
 
 		private static void Print2(Cons2 item) {
@@ -136,10 +135,10 @@ namespace Test {
 			}
 		}
 
-		private static void ConsIterator(BaseCons cons, Action<Atom> f) {
+		private static void ConsIterator(BaseCons cons, Action<BaseCons> f) {
 			void iterator(BaseCons c) {
 				if (c is Cons2 cons2) {
-					if (cons2.CarValue != null) {
+					if (cons2.CarValue!=null) {
 						if (cons2.CarValue is Atom atom) {
 							f(atom);
 						}
@@ -153,26 +152,14 @@ namespace Test {
 					else {
 						throw new NullReferenceException();
 					}
-					if (cons2.CdrValue != null) {
-						if (cons2.CdrValue is Atom atom) {
-							f(atom);
-						}
-						else if (cons2.CdrValue is Cons2 subcons) {
-							iterator(subcons);
-						}
-						else {
-							throw new InvalidCastException();
-						}
-					}
 				}
 				else if (c is Atom atom) {
 					f(atom);
 				}
 				else {
-					throw new InvalidCastException();
+
 				}
 			}
-			iterator(cons);
 		}
 	}
 }
