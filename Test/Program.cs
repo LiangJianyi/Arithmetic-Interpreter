@@ -7,8 +7,8 @@ using Arithmetic_Interpreter_UWP;
 namespace Test {
 	class Program {
 		static void Main(string[] args) {
-			Test3();
-
+			Cons2 cons = Test3();
+			ConsIterator(cons, Print);
 			Console.ReadKey();
 		}
 
@@ -40,7 +40,7 @@ namespace Test {
 			Print(lik.Last);
 		}
 
-		private static void Test3() {
+		private static Cons2 Test3() {
 			Cons2 c1 = new Cons2("r");
 			Cons2 c2 = new Cons2("l", c1);
 			Cons2 c3 = new Cons2("+", c2);
@@ -61,15 +61,16 @@ namespace Test {
 				{ "c8", c8 },
 				{ "c9", c9 }
 			};
-			foreach (var item in ccc) {
-				Console.WriteLine(item.Key);
-				Console.WriteLine($"cons.Car.Previous: {item.Value.Car.Previous}");
-				Console.WriteLine($"cons.Car.Next: {item.Value.Car.Next}");
-				Console.WriteLine($"cons.Cdr.Previous: {item.Value.Cdr.Previous}");
-				Console.WriteLine($"cons.Cdr.Next: {item.Value.Cdr.Next}");
-				Console.WriteLine($"cons.CarValue: {item.Value.CarValue}");
-				Console.WriteLine($"cons.CdrValue: {item.Value.CdrValue}");
-			}
+			//foreach (var item in ccc) {
+			//	Console.WriteLine(item.Key);
+			//	Console.WriteLine($"cons.Car.Previous: {item.Value.Car.Previous}");
+			//	Console.WriteLine($"cons.Car.Next: {item.Value.Car.Next}");
+			//	Console.WriteLine($"cons.Cdr.Previous: {item.Value.Cdr.Previous}");
+			//	Console.WriteLine($"cons.Cdr.Next: {item.Value.Cdr.Next}");
+			//	Console.WriteLine($"cons.CarValue: {item.Value.CarValue}");
+			//	Console.WriteLine($"cons.CdrValue: {item.Value.CdrValue}");
+			//}
+			return c9;
 		}
 
 		private static void Print2(Cons2 item) {
@@ -127,9 +128,15 @@ namespace Test {
 				if (c.CarValue != null) {
 					if (c.CarValue is Atom atom) {
 						f(atom);
+						if (c.CdrValue != null) {
+							ConsIterator(c.CdrValue, f);
+						}
 					}
 					else if (c.CarValue is Cons2 subcons) {
 						ConsIterator(subcons, f);
+						if (c.CdrValue != null) {
+							ConsIterator(c.CdrValue, f);
+						}
 					}
 					else {
 						throw new InvalidCastException();
