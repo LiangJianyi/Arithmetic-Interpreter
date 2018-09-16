@@ -98,6 +98,37 @@ namespace Arithmetic_Interpreter_UWP {
 
 	public abstract class BaseCons {
 		protected string _lexical;
+
+		public static void ConsIterator(BaseCons cons, Action<BaseCons> f) {
+			if (cons is Cons2 c) {
+				if (c.CarValue != null) {
+					if (c.CarValue is Atom atom) {
+						f(atom);
+						if (c.CdrValue != null) {
+							ConsIterator(c.CdrValue, f);
+						}
+					}
+					else if (c.CarValue is Cons2 subcons) {
+						ConsIterator(subcons, f);
+						if (c.CdrValue != null) {
+							ConsIterator(c.CdrValue, f);
+						}
+					}
+					else {
+						throw new InvalidCastException();
+					}
+				}
+				else {
+					throw new NullReferenceException();
+				}
+			}
+			else if (cons is Atom atom) {
+				f(atom);
+			}
+			else {
+				throw new InvalidCastException();
+			}
+		}
 	}
 
 	public class Cons2 : BaseCons {
