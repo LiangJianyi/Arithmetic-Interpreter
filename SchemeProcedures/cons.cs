@@ -96,28 +96,8 @@ namespace Arithmetic_Interpreter_UWP {
 			!(EqualityComparer<Tcar>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<Tcdr>.Default.Equals(consLeft.Cdr, consRight.Cdr));
 	}
 
-	public abstract class BaseCons : IEquatable<BaseCons> {
+	public abstract class BaseCons {
 		protected string _lexical;
-		
-		public static bool operator ==(BaseCons cons1,BaseCons cons2) {
-			return cons1.Equals(cons2);
-		}
-
-		public static bool operator !=(BaseCons cons1, BaseCons cons2) {
-			return !cons1.Equals(cons2);
-		}
-
-		public override bool Equals(object obj) {
-			return this.Equals(obj as BaseCons);
-		}
-
-		public override int GetHashCode() {
-			return this._lexical.GetHashCode() ^ base.GetHashCode();
-		}
-
-		public bool Equals(BaseCons other) {
-			return this._lexical.Equals(other._lexical);
-		}
 	}
 
 	public class Cons2 : BaseCons {
@@ -162,12 +142,6 @@ namespace Arithmetic_Interpreter_UWP {
 
 		public override string ToString() {
 			return base._lexical;
-		}
-	}
-
-	public class Procedure : BaseCons {
-		public Procedure(string lex) {
-			base._lexical = lex;
 		}
 	}
 }

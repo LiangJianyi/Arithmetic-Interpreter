@@ -7,20 +7,7 @@ using Arithmetic_Interpreter_UWP;
 namespace Test {
 	class Program {
 		static void Main(string[] args) {
-			//Test3();
-			Atom atom1 = new Atom("1");
-			Atom atom2 = new Atom("2");
-			Procedure plus1 = new Procedure("+");
-			BaseCons expr1 = new Cons2(plus1, new Cons2(atom1, atom2));
-
-			Atom atom3 = new Atom("1");
-			Atom atom4 = new Atom("2");
-			Procedure plus2 = new Procedure("+");
-			BaseCons expr2 = new Cons2(plus2, new Cons2(atom3, atom4));
-
-			Console.WriteLine(expr1 == expr2);
-			Console.WriteLine(expr1 != expr2);
-			Console.WriteLine(expr1.Equals(expr2));
+			Test3();
 
 			Console.ReadKey();
 		}
@@ -136,29 +123,27 @@ namespace Test {
 		}
 
 		private static void ConsIterator(BaseCons cons, Action<BaseCons> f) {
-			void iterator(BaseCons c) {
-				if (c is Cons2 cons2) {
-					if (cons2.CarValue!=null) {
-						if (cons2.CarValue is Atom atom) {
-							f(atom);
-						}
-						else if (cons2.CarValue is Cons2 subcons) {
-							iterator(subcons);
-						}
-						else {
-							throw new InvalidCastException();
-						}
+			if (cons is Cons2 c) {
+				if (c.CarValue != null) {
+					if (c.CarValue is Atom atom) {
+						f(atom);
+					}
+					else if (c.CarValue is Cons2 subcons) {
+						ConsIterator(subcons, f);
 					}
 					else {
-						throw new NullReferenceException();
+						throw new InvalidCastException();
 					}
 				}
-				else if (c is Atom atom) {
-					f(atom);
-				}
 				else {
-
+					throw new NullReferenceException();
 				}
+			}
+			else if (cons is Atom atom) {
+				f(atom);
+			}
+			else {
+				throw new InvalidCastException();
 			}
 		}
 	}
