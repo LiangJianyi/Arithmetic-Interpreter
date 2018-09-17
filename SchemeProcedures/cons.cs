@@ -158,8 +158,8 @@ namespace Arithmetic_Interpreter_UWP {
 		public LinkedListNode<BaseCons> Cdr => this._lik.Last;
 		public BaseCons CarValue => this._lik.First.Value;
 		public BaseCons CdrValue => this._lik.Last.Value;
-		public void SetCar(BaseCons car) => this._lik.AddFirst(car);
-		public void SetCdr(BaseCons cdr) => this._lik.AddLast(cdr);
+		public void SetCar(BaseCons car) => this._lik.First.Value = car;
+		public void SetCdr(BaseCons cdr) => this._lik.Last.Value = cdr;
 	}
 
 	public class Atom : BaseCons {
