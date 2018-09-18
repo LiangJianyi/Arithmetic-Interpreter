@@ -24,8 +24,13 @@ namespace JymlRuntime {
 	/// 真正添加到 environment 时，需要采取自动化措施填写该参数。
 	/// </summary>
 	public class ObjectTable {
-		private int _environmentId;
-		private static int _rowIndex = -1;
+		private int EnvironmentId { get; set; }
+		private int RowIndex { get; set; } = -1;
+
+		public ObjectTable(int environentId) {
+			this.EnvironmentId = environentId;
+		}
+
 		/// <summary>
 		/// 对象表
 		/// </summary>
@@ -110,7 +115,7 @@ namespace JymlRuntime {
 		}
 
 		public ObjectTable(int eid) {
-			this._environmentId = eid;
+			this.EnvironmentId = eid;
 		}
 
 
