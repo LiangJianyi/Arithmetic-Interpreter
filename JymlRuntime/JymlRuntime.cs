@@ -4,16 +4,37 @@ using System.Linq;
 using Arithmetic_Interpreter_UWP;
 
 namespace JymlRuntime {
-	public class Environment {
-		private int _eid;
-		private LinkedList<ObjectTable> _objectTables;
+	public static class Environment {
+		static private int _eid;
+		static private LinkedList<EnvironmentNode> _objectTables = new LinkedList<EnvironmentNode>();
+
 		public class EnvironmentNode {
+			public int Eid { get; set; }
+			public LinkedList<ObjectTable> ObjectTables { get; set; } = new LinkedList<ObjectTable>();
 
+			public EnvironmentNode(int eid, ObjectTable table) {
+				this.Eid = eid;
+				if (this.ObjectTables.Count==0) {
+					this.ObjectTables.AddFirst(table);
+				}
+				else {
+					this.ObjectTables.AddLast(table);
+				}
+			}
 		}
 
-		public void AddTable(ObjectTable table) {
-
+		static public void AddTable(ObjectTable table) {
+			Environment._eid += 1;
+			Environment._objectTables.AddAfter(
+					Environment._objectTables.Last,
+					new EnvironmentNode(_eid, table)
+			);
 		}
+
+
+
+		static public LinkedList<EnvironmentNode> ObjectTables => Environment._objectTables;
+		static public int TailEid => Environment._eid;
 	}
 
 	/// <summary>
@@ -82,13 +103,12 @@ namespace JymlRuntime {
 		public static string AddressEncode(Address address) =>
 			address.eid.ToString() + "|" + address.row.ToString();
 
-		public static void AddEntry(string name, int value, Address addr) {
-			_objects.Push(new ObjectTable.Object {
+		public static void AddEntry(string name, int value, Address addr) =>
+			_objects.UniquePush(new ObjectTable.Object {
 				Name = name,
 				Value = value,
 				Address = addr
 			});
-		}
 
 		public static ObjectTable.Object GetObjectByName(string name) {
 			var query = from obj in ObjectTable._objects
@@ -113,11 +133,16 @@ namespace JymlRuntime {
 				throw new ArgumentException($"对象未定义，地址: {ObjectTable.AddressEncode(address)}");
 			}
 		}
+	}
 
-		public ObjectTable(int eid) {
-			this.EnvironmentId = eid;
+	static class StackExtended {
+		public static void UniquePush<T>(this Stack<T> stack, T value) {
+			if (stack.Contains(value)) {
+				throw new ArgumentException("value of Stack<T> must be unique.");
+			}
+			else {
+				stack.Push(value);
+			}
 		}
-
-
 	}
 }
