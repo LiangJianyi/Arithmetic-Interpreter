@@ -7,8 +7,7 @@ using Arithmetic_Interpreter_UWP;
 namespace Test {
 	class Program {
 		static void Main(string[] args) {
-			Cons2 cons = Test3();
-			BaseCons.ConsIterator(cons, Print);
+			
 			Console.ReadKey();
 		}
 

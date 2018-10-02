@@ -4,9 +4,20 @@ using System.Linq;
 using Arithmetic_Interpreter_UWP;
 
 namespace JymlRuntime {
+	/// <summary>
+	/// 代表解释器的运行时环境。
+	/// 整个解释器的生命周期只能有一个 environment ，这就是为什么要把它弄成静态的原因。
+	/// 它需要在整个解释器生命周期中维持 _eid, _enviromentList, EnvironmentNode 的状态。
+	/// </summary>
 	public static class Environment {
+		/// <summary>
+		/// 环境节点下标
+		/// </summary>
 		static private int _eid;
-		static private LinkedList<EnvironmentNode> _objectTables = new LinkedList<EnvironmentNode>();
+		/// <summary>
+		/// 存储对象表的 LinkedList, 每个节点是一个 EnvironmentNode，其包含了 Eid 和 ObjectTable。
+		/// </summary>
+		static private LinkedList<EnvironmentNode> _enviromentList = new LinkedList<EnvironmentNode>();
 
 		public class EnvironmentNode {
 			public int Eid { get; set; }
@@ -25,15 +36,20 @@ namespace JymlRuntime {
 
 		static public void AddTable(ObjectTable table) {
 			Environment._eid += 1;
-			Environment._objectTables.AddAfter(
-					Environment._objectTables.Last,
+			Environment._enviromentList.AddAfter(
+					Environment._enviromentList.Last,
 					new EnvironmentNode(_eid, table)
 			);
 		}
 
 
-
-		static public LinkedList<EnvironmentNode> ObjectTables => Environment._objectTables;
+		/// <summary>
+		/// 存储对象表的 LinkedList, 每个节点是一个 EnvironmentNode，其包含了 Eid 和 ObjectTable。
+		/// </summary>
+		static public LinkedList<EnvironmentNode> ObjectTables => Environment._enviromentList;
+		/// <summary>
+		/// 提取最近添加的环境节点下标
+		/// </summary>
 		static public int TailEid => Environment._eid;
 	}
 
