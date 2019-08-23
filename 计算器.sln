@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAnalyser", "CodeAnalyse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{817B5435-BCDB-40C9-8496-0CB3FBC56AA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JymlInterpreter", "JymlInterpreter\JymlInterpreter.csproj", "{229D8312-1FC8-4617-B26A-4A0DB7B7AF46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JymlInterpreter", "JymlInterpreter\JymlInterpreter.csproj", "{229D8312-1FC8-4617-B26A-4A0DB7B7AF46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JymlRuntime", "JymlRuntime\JymlRuntime.csproj", "{91A3197F-3AC6-4597-A079-CD018B7DB48F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JymlRuntime", "JymlRuntime\JymlRuntime.csproj", "{91A3197F-3AC6-4597-A079-CD018B7DB48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arithmetic Interpreter", "Arithmetic Interpreter\Arithmetic Interpreter.csproj", "{896A3668-265C-46B4-A2BE-55004DE3372B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,22 @@ Global
 		{91A3197F-3AC6-4597-A079-CD018B7DB48F}.Release|x64.Build.0 = Release|Any CPU
 		{91A3197F-3AC6-4597-A079-CD018B7DB48F}.Release|x86.ActiveCfg = Release|Any CPU
 		{91A3197F-3AC6-4597-A079-CD018B7DB48F}.Release|x86.Build.0 = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|x64.Build.0 = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Debug|x86.Build.0 = Debug|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|ARM.Build.0 = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x64.ActiveCfg = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x64.Build.0 = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x86.ActiveCfg = Release|Any CPU
+		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
