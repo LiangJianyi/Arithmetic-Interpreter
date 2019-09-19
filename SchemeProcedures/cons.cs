@@ -108,8 +108,8 @@ namespace Arithmetic_Interpreter_UWP {
 							ConsIterator(c.CdrValue, f);
 						}
 					}
-					else if (c.CarValue is Cons2 subcons) {
-						ConsIterator(subcons, f);
+					else if (c.CarValue is Cons2) {
+						ConsIterator(c.CarValue, f);
 						if (c.CdrValue != null) {
 							ConsIterator(c.CdrValue, f);
 						}
