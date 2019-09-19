@@ -20,20 +20,20 @@ namespace Test {
 			}
 		}
 
-		private static Cons2 Test3() {
-			Cons2 c1 = new Cons2("r");
-			Cons2 c2 = new Cons2("l", c1);
-			Cons2 c3 = new Cons2("+", c2);
-			Cons2 c4 = new Cons2("r");
-			Cons2 c5 = new Cons2("l", c4);
-			Cons2 c6 = new Cons2("add", c5);
-			Cons2 c7 = new Cons2(c3);
-			Cons2 c8 = new Cons2(c6, c7);
-			Cons2 c9 = new Cons2("define", c8);
+		private static AST Test3() {
+			AST c1 = new AST("r");
+			AST c2 = new AST("l", c1);
+			AST c3 = new AST("+", c2);
+			AST c4 = new AST("r");
+			AST c5 = new AST("l", c4);
+			AST c6 = new AST("add", c5);
+			AST c7 = new AST(c3);
+			AST c8 = new AST(c6, c7);
+			AST c9 = new AST("define", c8);
 			return c9;
 		}
 
-		private static void Print2(Cons2 item) {
+		private static void Print2(AST item) {
 			Console.WriteLine(item.Car.Previous);
 			Console.WriteLine(item.Car.Next);
 			Console.WriteLine(item.Cdr.Previous);

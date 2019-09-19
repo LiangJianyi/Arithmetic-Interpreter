@@ -100,7 +100,7 @@ namespace Arithmetic_Interpreter_UWP {
 		protected string _lexical;
 
 		public static void ConsIterator(BaseCons cons, Action<BaseCons> f) {
-			if (cons is Cons2 c) {
+			if (cons is AST c) {
 				if (c.CarValue != null) {
 					if (c.CarValue is Atom atom) {
 						f(atom);
@@ -108,7 +108,7 @@ namespace Arithmetic_Interpreter_UWP {
 							ConsIterator(c.CdrValue, f);
 						}
 					}
-					else if (c.CarValue is Cons2) {
+					else if (c.CarValue is AST) {
 						ConsIterator(c.CarValue, f);
 						if (c.CdrValue != null) {
 							ConsIterator(c.CdrValue, f);
@@ -131,25 +131,25 @@ namespace Arithmetic_Interpreter_UWP {
 		}
 	}
 
-	public class Cons2 : BaseCons {
+	public class AST : BaseCons {
 		private LinkedList<BaseCons> _lik = new LinkedList<BaseCons>();
 
-		public Cons2(string car) {
+		public AST(string car) {
 			this._lik.AddFirst(new Atom(car));
 			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
 		}
 
-		public Cons2(BaseCons car) {
+		public AST(BaseCons car) {
 			this._lik.AddFirst(car);
 			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
 		}
 
-		public Cons2(string car, BaseCons cdr) {
+		public AST(string car, BaseCons cdr) {
 			this._lik.AddFirst(new Atom(car));
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
-		public Cons2(BaseCons car, BaseCons cdr) {
+		public AST(BaseCons car, BaseCons cdr) {
 			this._lik.AddFirst(new LinkedListNode<BaseCons>(car));
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
