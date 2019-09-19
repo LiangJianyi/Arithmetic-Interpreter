@@ -188,7 +188,7 @@ result-set
 
 namespace JymlInterpreter {
 	public static class JymlInterpreter {
-		public static string Eval(BaseCons ast) {
+		public static string Eval(AST ast) {
 			return null;
 		}
 		public static void InferredType() {

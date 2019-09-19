@@ -2,105 +2,11 @@
 using System.Collections.Generic;
 
 namespace Arithmetic_Interpreter_UWP {
-	public class Cons<T> {
-		private T _car;
-		private T _cdr;
-
-		public Cons(T car, T cdr) {
-			this._car = car;
-			this._cdr = cdr;
-		}
-
-		public T Car {
-			get => this._car;
-			set
-			{
-				this._car = value;
-			}
-		}
-		public T Cdr {
-			get => this._cdr;
-			set
-			{
-				this._cdr = value;
-			}
-		}
-
-		public static T GetCar(Cons<T> cons) => cons._car;
-		public static T GetCdr(Cons<T> cons) => cons._cdr;
-
-		public override bool Equals(object obj) {
-			if (obj is Cons<T> target) {
-				return EqualityComparer<T>.Default.Equals(this.Car, target.Car) && EqualityComparer<T>.Default.Equals(this.Cdr, target.Cdr);
-			}
-			else {
-				return false;
-			}
-		}
-		public override int GetHashCode() {
-			return this._car.GetHashCode() ^ this._cdr.GetHashCode();
-		}
-		public override string ToString() {
-			return $"cons({this._car}, {this._cdr})";
-		}
-		public static bool operator ==(Cons<T> consLeft, Cons<T> consRight) =>
-			EqualityComparer<T>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<T>.Default.Equals(consLeft.Cdr, consRight.Cdr);
-		public static bool operator !=(Cons<T> consLeft, Cons<T> consRight) =>
-			!(EqualityComparer<T>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<T>.Default.Equals(consLeft.Cdr, consRight.Cdr));
-	}
-
-	public class Cons<Tcar, Tcdr> {
-		private Tcar _car;
-		private Tcdr _cdr;
-
-		public Cons(Tcar car, Tcdr cdr) {
-			this._car = car;
-			this._cdr = cdr;
-		}
-
-		public Tcar Car {
-			get => this._car;
-			set
-			{
-				this._car = value;
-			}
-		}
-		public Tcdr Cdr {
-			get => this._cdr;
-			set
-			{
-				this._cdr = value;
-			}
-		}
-
-		public static Tcar GetCar(Cons<Tcar, Tcdr> cons) => cons._car;
-		public static Tcdr GetCdr(Cons<Tcdr, Tcdr> cons) => cons._cdr;
-
-		public override bool Equals(object obj) {
-			if (obj is Cons<Tcar, Tcdr> target) {
-				return EqualityComparer<Tcar>.Default.Equals(this.Car, target.Car) && EqualityComparer<Tcdr>.Default.Equals(this.Cdr, target.Cdr);
-			}
-			else {
-				return false;
-			}
-		}
-		public override int GetHashCode() {
-			return this._car.GetHashCode() ^ this._cdr.GetHashCode();
-		}
-		public override string ToString() {
-			return $"cons({this._car}, {this._cdr})";
-		}
-		public static bool operator ==(Cons<Tcar, Tcdr> consLeft, Cons<Tcar, Tcdr> consRight) =>
-			EqualityComparer<Tcar>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<Tcdr>.Default.Equals(consLeft.Cdr, consRight.Cdr);
-		public static bool operator !=(Cons<Tcar, Tcdr> consLeft, Cons<Tcar, Tcdr> consRight) =>
-			!(EqualityComparer<Tcar>.Default.Equals(consLeft.Car, consRight.Car) && EqualityComparer<Tcdr>.Default.Equals(consLeft.Cdr, consRight.Cdr));
-	}
-
-	public abstract class BaseCons {
+	public abstract class AST {
 		protected string _lexical;
 
-		public static void ConsIterator(BaseCons cons, Action<BaseCons> f) {
-			if (cons is AST c) {
+		public static void ConsIterator(AST cons, Action<AST> f) {
+			if (cons is Cons c) {
 				if (c.CarValue != null) {
 					if (c.CarValue is Atom atom) {
 						f(atom);
@@ -108,7 +14,7 @@ namespace Arithmetic_Interpreter_UWP {
 							ConsIterator(c.CdrValue, f);
 						}
 					}
-					else if (c.CarValue is AST) {
+					else if (c.CarValue is Cons) {
 						ConsIterator(c.CarValue, f);
 						if (c.CdrValue != null) {
 							ConsIterator(c.CdrValue, f);
@@ -131,38 +37,38 @@ namespace Arithmetic_Interpreter_UWP {
 		}
 	}
 
-	public class AST : BaseCons {
-		private LinkedList<BaseCons> _lik = new LinkedList<BaseCons>();
+	public class Cons : AST {
+		private LinkedList<AST> _lik = new LinkedList<AST>();
 
-		public AST(string car) {
+		public Cons(string car) {
 			this._lik.AddFirst(new Atom(car));
-			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
+			this._lik.AddAfter(this._lik.First, new LinkedListNode<AST>(null));
 		}
 
-		public AST(BaseCons car) {
+		public Cons(AST car) {
 			this._lik.AddFirst(car);
-			this._lik.AddAfter(this._lik.First, new LinkedListNode<BaseCons>(null));
+			this._lik.AddAfter(this._lik.First, new LinkedListNode<AST>(null));
 		}
 
-		public AST(string car, BaseCons cdr) {
+		public Cons(string car, AST cdr) {
 			this._lik.AddFirst(new Atom(car));
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
-		public AST(BaseCons car, BaseCons cdr) {
-			this._lik.AddFirst(new LinkedListNode<BaseCons>(car));
+		public Cons(AST car, AST cdr) {
+			this._lik.AddFirst(new LinkedListNode<AST>(car));
 			this._lik.AddAfter(this._lik.First, cdr);
 		}
 
-		public LinkedListNode<BaseCons> Car => this._lik.First;
-		public LinkedListNode<BaseCons> Cdr => this._lik.Last;
-		public BaseCons CarValue => this._lik.First.Value;
-		public BaseCons CdrValue => this._lik.Last.Value;
-		public void SetCar(BaseCons car) => this._lik.First.Value = car;
-		public void SetCdr(BaseCons cdr) => this._lik.Last.Value = cdr;
+		public LinkedListNode<AST> Car => this._lik.First;
+		public LinkedListNode<AST> Cdr => this._lik.Last;
+		public AST CarValue => this._lik.First.Value;
+		public AST CdrValue => this._lik.Last.Value;
+		public void SetCar(AST car) => this._lik.First.Value = car;
+		public void SetCdr(AST cdr) => this._lik.Last.Value = cdr;
 	}
 
-	public class Atom : BaseCons {
+	public class Atom : AST {
 		public Atom() {
 			base._lexical = string.Empty;
 		}

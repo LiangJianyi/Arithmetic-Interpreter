@@ -129,7 +129,7 @@ namespace JymlRuntime {
         public class JymlObject {
             public Address Address { get; set; }
             public string Name { get; set; }
-            public int Value { get; set; }
+            public JymlTypeSystem.JymlType Value { get; set; }
             public override string ToString() => $"{Address} {Name} {Value}";
         }
         /// <summary>
@@ -166,7 +166,7 @@ namespace JymlRuntime {
         /// <param name="name">对象在代码中的命名</param>
         /// <param name="value">对象值</param>
         /// <param name="addr">对象地址</param>
-        public static void AddEntry(string name, int value, Address addr) =>
+        public static void AddEntry(string name, JymlTypeSystem.JymlType value, Address addr) =>
             _objects.UniquePush(new ObjectTable.JymlObject {
                 Name = name,
                 Value = value,

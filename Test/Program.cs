@@ -7,7 +7,7 @@ using Arithmetic_Interpreter_UWP;
 namespace Test {
 	class Program {
 		static void Main(string[] args) {
-            BaseCons.ConsIterator(Test3(),cons=>Console.WriteLine(cons));
+            AST.ConsIterator(Test3(),cons=>Console.WriteLine(cons));
 			Console.ReadKey();
 		}
 
@@ -20,20 +20,20 @@ namespace Test {
 			}
 		}
 
-		private static AST Test3() {
-			AST c1 = new AST("r");
-			AST c2 = new AST("l", c1);
-			AST c3 = new AST("+", c2);
-			AST c4 = new AST("r");
-			AST c5 = new AST("l", c4);
-			AST c6 = new AST("add", c5);
-			AST c7 = new AST(c3);
-			AST c8 = new AST(c6, c7);
-			AST c9 = new AST("define", c8);
+		private static Cons Test3() {
+			Cons c1 = new Cons("r");
+			Cons c2 = new Cons("l", c1);
+			Cons c3 = new Cons("+", c2);
+			Cons c4 = new Cons("r");
+			Cons c5 = new Cons("l", c4);
+			Cons c6 = new Cons("add", c5);
+			Cons c7 = new Cons(c3);
+			Cons c8 = new Cons(c6, c7);
+			Cons c9 = new Cons("define", c8);
 			return c9;
 		}
 
-		private static void Print2(AST item) {
+		private static void Print2(Cons item) {
 			Console.WriteLine(item.Car.Previous);
 			Console.WriteLine(item.Car.Next);
 			Console.WriteLine(item.Cdr.Previous);
@@ -65,7 +65,7 @@ namespace Test {
 					Console.WriteLine(text);
 				}
 			}
-			else if (node is LinkedListNode<BaseCons> consLikNode) {
+			else if (node is LinkedListNode<AST> consLikNode) {
 				if (consLikNode.Value == null) {
 					Console.WriteLine("null");
 				}
@@ -73,7 +73,7 @@ namespace Test {
 					Console.WriteLine(consLikNode.Value);
 				}
 			}
-			else if (node is BaseCons baseCons) {
+			else if (node is AST baseCons) {
 				if (baseCons == null) {
 					Console.WriteLine("null");
 				}
