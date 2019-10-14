@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JymlTypeSystem\JymlTypeSystem.csproj" />
     <ProjectReference Include="..\SchemeProcedures\SchemeProcedures.csproj" />
   </ItemGroup>
 

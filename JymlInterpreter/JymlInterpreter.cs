@@ -1,5 +1,6 @@
 ﻿using System;
 using Arithmetic_Interpreter_UWP;
+using JymlTypeSystem;
 
 /*
  * #lang racket
@@ -188,12 +189,44 @@ result-set
 
 namespace JymlInterpreter {
 	public static class JymlInterpreter {
-		public static string Eval(AST ast) {
-			return null;
-		}
-		public static void InferredType() {
-
-		}
+		public static JymlType Eval(AST ast) {
+            JymlRuntime.Environment.AddTable(new JymlRuntime.ObjectTable(0));
+            if (ast is Cons c) {
+                if (c.CarValue != null) {
+                    if (c.CarValue is Atom atom) {
+                        InferredType(atom);
+                        if (c.CdrValue != null) {
+                            Eval(c.CdrValue);
+                        }
+                    }
+                    else if (c.CarValue is Cons) {
+                        Eval(c.CarValue);
+                        if (c.CdrValue != null) {
+                            Eval(c.CdrValue);
+                        }
+                    }
+                    else {
+                        throw new InvalidCastException();
+                    }
+                }
+                else {
+                    throw new NullReferenceException();
+                }
+            }
+            else if (ast is Atom atom) {
+                InferredType(atom);
+            }
+            else {
+                throw new InvalidCastException();
+            }
+        }
+        public static void InferredType(Atom atom) {
+            string lexical = atom.ToString();
+            
+        }
+        public static void InferredType(AST ast) {
+            
+        }
 		public static void ResultSet() {
 
 		}

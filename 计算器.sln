@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JymlRuntime", "JymlRuntime\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arithmetic Interpreter", "Arithmetic Interpreter\Arithmetic Interpreter.csproj", "{896A3668-265C-46B4-A2BE-55004DE3372B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JymlTypeSystem", "JymlTypeSystem\JymlTypeSystem.csproj", "{676FC8F9-6D02-4B28-A201-DFA768B042FA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,22 +147,6 @@ Global
 		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x64.Build.0 = Release|Any CPU
 		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x86.ActiveCfg = Release|Any CPU
 		{896A3668-265C-46B4-A2BE-55004DE3372B}.Release|x86.Build.0 = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|ARM.Build.0 = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|x64.Build.0 = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Debug|x86.Build.0 = Debug|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|ARM.ActiveCfg = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|ARM.Build.0 = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|x64.ActiveCfg = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|x64.Build.0 = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|x86.ActiveCfg = Release|Any CPU
-		{676FC8F9-6D02-4B28-A201-DFA768B042FA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

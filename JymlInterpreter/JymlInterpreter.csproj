@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CodeAnalyser\CodeAnalyser.csproj" />
+    <ProjectReference Include="..\JymlRuntime\JymlRuntime.csproj" />
     <ProjectReference Include="..\SchemeProcedures\SchemeProcedures.csproj" />
   </ItemGroup>
 

@@ -59,9 +59,9 @@ namespace JymlRuntime {
 
 
         /// <summary>
-        /// 获取运行时环境的所有对象表
+        /// 获取所有的环境节点
         /// </summary>
-        static public LinkedList<EnvironmentNode> GetAllObjectTables => Environment._enviromentList;
+        static public LinkedList<EnvironmentNode> GetAllEnvironmentNodes => Environment._enviromentList;
         /// <summary>
         /// 提取最新添加的环境节点的索引
         /// </summary>
